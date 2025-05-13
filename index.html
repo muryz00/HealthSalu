@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Saúde</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<div id="bdLogin">
+  <div class="container">
+    <div class="dashboard">
+
+    <div class="dashboard3">
+
+      <a href="alimentacao.html">
+        <div class="card cardGrafico">
+            <h3>Alimentação</h3>
+            <canvas id="caloriesgainedChart"></canvas>
+        </div>
+      </a>
+
+      <a href="exercicio.html">
+        <div class="card">
+          <h3>Exercícios</h3>
+          <canvas id="caloriesChart"></canvas>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="dashboard1">
+      <a href="menstruacao.html">
+        <div class="card cardGrafico">
+          <h3>Período Menstrual</h3>
+          <canvas id="fluxoChart"></canvas>
+      </div>
+      </a>
+
+    </div>  
+
+    <div class="dashboard2">
+
+      <a href="configuracoes.html">
+        <div class="card">
+          <h3>Configurações</h3>
+          <img src="IMG/settingIcon.png" alt="">
+      </div>
+      </a>
+
+      <a href="exames.html">
+        <div class="card">
+            <h3>Exames</h3>
+            <img src="IMG/examesIcon.png" alt="">
+        </div>
+      </a>
+
+      <a href="medicacaoPaciente.html">
+        <div class="card">
+            <h3>Medicamentos</h3>
+            <img src="IMG/medicacaoIcon.png" alt="" srcset="">
+        </div>
+      </a>
+
+      <a href="consulta.html">
+        <div class="card">
+            <h3>Consultas</h3>
+
+            <div class="imgIndex">
+            <img src="IMG/consultaIcon.png" alt="">
+            </div>
+
+        </div>
+      </a>
+
+    </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script src="JS/script.js"></script>
+</body>
+</html>
+

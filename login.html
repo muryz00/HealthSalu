@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/style.css">
+  <title>Login</title>
+</head>
+<body id="bdLogin">
+  <div class="containerLogin">
+
+    <main class="mainLogin">
+      <section class="area-login">
+
+        <img src="img/LOGO.png" id="imgLogin">
+
+        <div class="button-box">
+          <button id="paciente" class="btn selected" onclick="selecionar('paciente')">Login Paciente</button>
+          <button id="medico" class="btn" onclick="selecionar('medico')">Login Médico</button>
+        </div>
+
+        <form id="formLogin">
+          <input type="hidden" name="tipo" id="tipo" value="paciente">
+
+          <input type="text" name="identificador" placeholder="Digite seu CPF ou CRM" class="txtCard" id="email" autofocus>
+
+
+
+          <input type="password" name="senha" placeholder="Digite sua senha" class="btnCard" id="senha">
+
+          <input type="submit" value="Entrar" id="btnEntrar">
+        </form>
+
+        <p id="p">Ainda não possui uma conta? <a href="cadastro.html" id="linkCadastro">Criar conta</a></p>
+
+      </section>
+    </main>
+
+    <aside class="asideLogin">
+      <img src="IMG/imgLogin.png" alt="Imagem de Login">
+    </aside>
+  </div>
+
+  <script src="JS/FirebaseLogin.js" type="module"></script>
+  <script src="JS/cadastro.js"></script>
+</body>
+</html>

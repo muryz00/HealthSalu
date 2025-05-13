@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Cadastro Health</title>
+</head>
+<body id="bdLogin">
+
+    <div class="containerLogin">
+        <main class="mainLogin">
+            <section class="area-login">
+                <img src="img/LOGO.png" id="imgLogin">
+
+                <div class="button-box">
+                    <button id="paciente" class="btn selected" onclick="selecionar('paciente')">Cadastro Paciente</button>
+                    <button id="medico" class="btn" onclick="selecionar('medico')">Cadastro Médico</button>
+                </div>
+
+                <form id="formLogin">
+                    <input type="hidden" name="tipo" id="tipo" value="paciente">
+
+                    <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo" class="txtCard" required>
+                    <input type="text" name="cpf" placeholder="Digite seu CPF" id="cpf" class="txtCard" required>
+                    <input type="email" name="email" placeholder="Digite seu Email" class="txtCard" id="email" required>
+                    <input type="date" name="dataNasc" id="dataNasc" required>
+
+                    <div id="cadastroExtras"></div>
+
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" class="txtCard" required>
+                    <input type="password" name="confSenha" placeholder="Confirme sua senha" class="txtCard" id="confirmSenha" required>
+                    <input type="submit" value="Cadastrar" id="btnEntrar">
+                </form>
+
+                <p id="p">Já possui uma conta? <a href="login.html" id="linkCadastro">Login</a></p>
+            </section>
+        </main>
+
+        <aside class="asideLogin">
+            <img src="IMG/imgLogin2.png" alt="">
+        </aside>
+    </div>
+
+    <!-- Carrega o JS com Firebase + lógica de cadastro -->
+    <script type="module" src="JS/FirebaseCadastro.js"></script>
+    <script src="JS/cadastro.js"></script>
+</body>
+</html>

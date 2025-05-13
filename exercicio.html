@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Exercícios</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body id="bdFuncionalidades">
+    <script src="JS/exercicios.js"></script>
+
+    <div class="dashboardFuncionalidades">
+
+        <header class="headerFuncionalidades">
+            <h1>Exercícios</h1>
+        </header>
+
+        <section class="stats">
+
+            <div class="cardFuncionalidades">
+                
+                <br><h1>Tipo de Exercicio</h1><br>
+                
+                <select id="tipo-exercicio" class="tipo-funcionalidades">
+                    <option value="corrida">Corrida</option>
+                    <option value="natação">Natação</option>
+                    <option value="ciclismo">Ciclismo</option>
+                    <option value="musculação">Musculação</option>
+                </select>
+
+            </div>
+
+            <div class="cardFuncionalidades">
+
+                <h2>Duração do exercício</h2>
+                <h4>(em Minutos)</h4><br>
+
+                <input type="number" id="duracao" min="1" value="30">
+
+            </div>
+
+            <div class="cardFuncionalidades">
+
+                <h2>Peso e Altura</h2>
+                <h4>(em Kg e Metros)</h4><br>
+
+                <input type="number" id="peso" min="1" placeholder="Peso">
+                <input type="number" id="altura" min="1" placeholder="Altura">
+                
+            </div>
+
+            <div class="cardFuncionalidades" id="cardBtn" onclick="calcularDados()">
+                <h1 style="margin-bottom: 10px; ">Calcular</h1>
+            </div>
+
+        </section>
+
+        <section class="charts">
+
+            <div class="chart large"><div class="chart">
+
+                <canvas id="caloriesChart"></canvas>
+
+            <div class="users">
+
+                <div class="observacoes">
+                    <ul id="observacoes"></ul>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="tables">
+
+            <div class="table">
+
+                <h2>Histórico</h2><br>
+
+                <table id="tableExercicio">
+
+                    <tr id="thExercicio">
+                        <th>Exercicio</th>
+                        <th>Duração<br>(em Minutos)</th>
+                        <th>QTD de calorías perdida</th>
+                        <th>Descrição de IMC</th>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="chart">
+
+                <div class="chart">
+                    <canvas id="imcChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+        <a href="index.html" id="btnHome">
+            <i class="fas fa-home"></i> Home
+        </a>
+
+    </div>
+</body>
+</html>

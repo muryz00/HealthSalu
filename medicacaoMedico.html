@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Medicamentos</title>
+</head>
+<body id="bdFuncionalidades">
+
+    <div class="dashboardFuncionalidades">
+
+        <header class="headerFuncionalidades">
+        <h1>Cadastro de Medicamentos</h1>
+        </header>
+
+        <form id="formMedicamento">
+
+                <section class="stats"> 
+
+                    <div class="cardFuncionalidades">
+                        <h1>Nome do Paciente</h1>
+                        <input type="text" placeholder="Nome do Paciente" id="nome" required />
+                    </div>
+
+                    <div class="cardFuncionalidades">
+                        <h1>Categoria</h1>
+                        <input type="text" placeholder="Categoria" id="categoria" />
+                    </div>
+
+                    <div class="cardFuncionalidades">
+                        <h1>Princípio Ativo</h1>
+                        <input type="text" placeholder="Princípio Ativo" id="principioAtivo" />
+                    </div>
+
+                </section>
+
+                <section class="stats">
+
+                    <div class="cardFuncionalidades">
+                    <textarea placeholder="Bula" id="bula"></textarea>
+                    </div>
+
+                    <div class="cardFuncionalidades">
+                    <textarea placeholder="Contraindicações" id="contraindicacoes"></textarea>
+                    </div>
+
+                    <div class="cardFuncionalidades">
+                    <textarea placeholder="Efeitos Colaterais" id="efeitosColaterais"></textarea>
+                    </div>
+                
+                </section>
+
+                <div class="cardFuncionalidades" id="cardBtn">
+                    <h1 style="margin-bottom: 10px;">Salvar Medicamento</h1>
+                </div>
+
+            </form><br><br><br>
+
+            <header class="headerFuncionalidades">
+                <h1>Prescrição de Medicamentos</h1>
+            </header>
+
+            <form id="formPrescricao">
+
+                <section class="stats">
+
+                <div class="cardFuncionalidades">
+                     <h1>Nome do Paciente</h1>
+                     <input type="text" placeholder="Nome do Paciente" id="nome" required />
+                 </div>
+
+                <div class="cardFuncionalidades">
+                    <h1>Dosagem</h1>
+                    <input type="text" placeholder="Dosagem" id="dosagem" required />
+                </div>
+
+                <div class="cardFuncionalidades">
+                    <h1>Data da Prescrição</h1>
+                <input type="datetime-local" id="dataPrescricao" required />
+                </div>
+
+                </section>
+
+                <section class="stats">
+
+                    <div class="cardFuncionalidades">
+                        <h1>Recomendações</h1>
+                        <textarea placeholder="Recomendações" id="recomendacoes"></textarea>
+                    </div>
+
+                </section>
+
+                <div id="cardBtn" class="cardFuncionalidades">
+                    <h1 style="margin-bottom: 10px;">Salvar Prescrição</h1>
+                </div>
+
+            </form>
+
+    </div>
+
+    <a href="indexMedico.html" id="btnHome">
+        <i class="fas fa-home"></i> Home
+    </a>
+
+    <script src="JS/script.js"></script>
+</body>
+</html>

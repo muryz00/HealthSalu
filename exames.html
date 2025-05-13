@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exames</title>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body id="bdFuncionalidades">
+
+    <div class="dashboardFuncionalidades">
+
+        <header class="headerFuncionalidades">
+            <h1>Agendamento de Exames</h1>
+        </header>
+
+        <div class="stats">
+            <div class="cardFuncionalidades">
+                <h2>Nome</h2><br>
+                <input type="text" id="nome" placeholder="Digite seu nome completo...">  
+            </div>
+
+            <div class="cardFuncionalidades">
+                <h2>Tipo de Exame</h2><br>
+                <select class="tipo-funcionalidades" id="tipoExame">
+                  <option value="hemograma">Hemograma</option>
+                  <option value="glicemia">Glicemia</option>
+                  <option value="colesterol">Colesterol</option>
+                  <option value="raiox">Raio-x</option>
+                  <option value="ultrassom">Ultrassom</option>
+                  <option value="tomografia">Tomografia</option>
+                  <option value="eletrocardiograma">Eletrocardiograma</option>
+              </select>
+            </div>
+
+            <div class="cardFuncionalidades">
+                <h2>Data do exame</h2><br>
+                <input type="date" name="dataConsulta" id="dataConsulta">
+            </div>
+
+        </div>
+
+        <div class="cardFuncionalidades" id="cardBtn" onclick="agendarExame()">
+            <h1 style="margin-bottom: 10px;">Agendar Exame</h1>
+        </div><br><br>
+
+        <header class="headerFuncionalidades">
+            <h1>Banco de Exames</h1>
+          </header>
+          
+          <div class="cardFuncionalidades">
+            <div class="upload-container">
+              <h2>Enviar Arquivo</h2><br>
+              <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.bmp,.gif,.tiff,.tif,.svg,image/*" onchange="exibirArquivos()" />
+            </div>
+          </div>
+          
+          <div class="exames-container" id="examesContainer">
+            <!-- Os arquivos vão aparecer aqui dinamicamente -->
+          </div>
+
+
+    </div>
+
+    <a href="indexMedico.html" id="btnHome">
+        <i class="fas fa-home"></i> Home
+    </a>
+
+    <script src="JS/exames.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body id="bdFuncionalidades">
+
+        <div class="dashboardFuncionalidades">
+
+            <header class="headerFuncionalidades">
+                <h1>Consulta</h1>
+            </header>
+    
+            <section class="stats">
+    
+                <div class="cardFuncionalidades">
+                    <h2>Nome</h2><br>
+                    <input type="text" id="nome" placeholder="Digite seu nome">  
+                              
+                </div>
+    
+                <div class="cardFuncionalidades">
+    
+                  <h2>Data de Nascimento</h2><br>
+                  <input type="date" name="dataNascimento" id="dataNascimento">
+                  
+              </div>
+    
+            </section>    
+            <section class="stats">
+    
+              <div class="cardFuncionalidades">
+                <h2>Especialidade</h2><br>
+                <select class="tipo-funcionalidades" id="atendimento">
+                  <option value="clinico">Clínico Geral</option>
+                  <option value="cardiologia">Cardiologia</option>
+                  <option value="Dermatologia">Dermatologia</option>
+                  <option value="Ortopedia">Ortopedia</option>
+              </select>
+    
+            </div>
+    
+            <div class="cardFuncionalidades">
+                <h2>Data da consulta</h2><br>
+                <input type="date" name="dataConsulta" id="dataConsulta">
+            </div>
+    
+            </section>
+    
+            <div class="cardFuncionalidades" id="cardBtn" onclick="agendarConsulta()">
+                <h1 style="margin-bottom: 10px;">Marcar Consulta</h1>
+            </div><br><br>
+
+            <header class="headerFuncionalidades">
+                <h1>Consultas Agendadas</h1>
+            </header>
+
+        <div class="dashboard7">
+
+            <input type="text" class="inputSearch" placeholder="Pesquisar por nome ou CPF...">
+
+            <div class="cardFuncionalidades" id="cardBtn"">
+                <h1 style="font-size: 130%;">Pesquisar</h1>
+            </div>
+        </div>
+        
+            <table id="tableExercicio">
+                <thead>
+                    <tr id="thExercicio">
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Data de Nascimento</th>
+                        <th>Telefone</th>
+                        <th>Horário</th>
+                        <th>Especialidade</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+        <a href="indexMedico.html" id="btnHome">
+            <i class="fas fa-home"></i> Home
+        </a>
+
+<script src="JS/script.js"></script>
+</body>
+</html>

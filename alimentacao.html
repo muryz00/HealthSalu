@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Exercícios</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body id="bdFuncionalidades">
+    <script src="JS/alimentacao.js"></script>
+
+    <div class="dashboardFuncionalidades">
+
+        <header class="headerFuncionalidades">
+            <h1>Alimentação</h1>
+        </header>
+
+        <section class="stats">
+
+            <div class="cardFuncionalidades">
+                <h2>Alimentos</h2><br>
+                <input type="text" id="alimento" placeholder="Digite um alimento" oninput="buscarAlimentos()">            
+
+                <p class="descAlimentacao"><strong>Alimento:</strong><span id="nome-alimento">-</span></p>
+                <p><strong>Calorias:</strong> <span id="calorias">-</span></p>
+                <p><strong>Gordura:</strong> <span id="gordura">-</span></p>
+                <p><strong>Carboídrato:</strong> <span id="carboidrato">-</span></p>
+                <p><strong>Proteína:</strong> <span id="proteina">-</span></p>
+
+            </div>
+
+            <div class="cardFuncionalidades">
+
+                <h2>Quantidade de alimentos</h2>
+                <h4>(em Gramas)</h4><br>
+
+                <input type="number" id="quantidade" min="1" placeholder="Digite a quantidade">
+
+                <button type="submit" id="btnRecalcular" onclick="atualizarExibicao()">Recalcular</button>
+
+            </div>
+
+            <div class="cardFuncionalidades">
+
+                <h2>Peso e Altura</h2>
+                <h4>(em Kg e Metros)</h4><br>
+
+                <input type="number" id="peso" min="1" placeholder="Peso">
+                <input type="number" id="altura" min="1" placeholder="Altura">
+                
+            </div>
+
+            <div class="cardFuncionalidades">
+
+                <h2>Data da Alimentação</h2><br>
+
+                <input type="date" name="dataAlimento" id="dataAlimento">
+                
+            </div>
+
+            <div class="cardFuncionalidades" id="cardBtn" onclick="calcularGraficos()">
+                <h1 style="margin-bottom: 10px;">Calcular</h1>
+            </div>
+
+        </section>
+
+        <section class="charts">
+
+            <div class="chart large"><div class="chart">
+
+                <canvas id="caloriesgainedChart"></canvas>
+
+                <div class="usersAlimentos">
+                    <div class="observacao">
+                        <ul id="observacao"></ul>
+                    </div>
+                </div>
+                
+        </section>
+
+        <section class="tables">
+
+            <div class="table">
+
+                <h2>Histórico</h2><br>
+
+                <table id="tableAlimento">
+
+                    <tr id="thAlimento">
+                        <th>Alimento</th>
+                        <th>QTD de Alimentos</th>
+                        <th>Calorías</th>
+                        <th>Gordura</th>
+                        <th>Proteína</th>
+                        <th>Carboídrato</th>
+                        <th>Descrição de IMC</th>
+                        <th>Data da Alimentação</th>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="chart">
+
+                <div class="chart">
+                    <canvas id="imcChart2"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+        <a href="index.html" id="btnHome">
+            <i class="fas fa-home"></i> Home
+        </a>
+        
+    </div>
+</body>
+</html>

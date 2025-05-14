@@ -46,9 +46,9 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
 
     // Redireciona para a página correta
     if (tipo === "paciente") {
-      window.location.href = "index.html";
+      window.location.href = "dashboard.html";
     } else {
-      window.location.href = "indexMedico.html";
+      window.location.href = "dashboardMedico.html";
     }
 
   } catch (error) {

@@ -44,15 +44,7 @@ function selecionar(tipoUsuario) {
   // Cria o campo dinamicamente
   if (loginExtras) {
     loginExtras.innerHTML = "";
-  
-    const inputIdentificador = document.createElement("input");
-    inputIdentificador.type = "text";
-    inputIdentificador.name = "identificador";
-    inputIdentificador.id = "identificador";
-    inputIdentificador.classList.add("txtCard");
-    inputIdentificador.placeholder = tipoUsuario === "paciente" ? "Digite seu CPF" : "Digite seu CRM";
-    loginExtras.appendChild(inputIdentificador);
-  
+
     if (tipoUsuario === "medico") {
       const inputEspecialidade = document.createElement("input");
       inputEspecialidade.type = "text";
@@ -62,7 +54,16 @@ function selecionar(tipoUsuario) {
       inputEspecialidade.classList.add("tipo-funcionalidades");
       inputEspecialidade.placeholder = "Digite sua especialidade médica";
       loginExtras.appendChild(inputEspecialidade);
+
+    const inputIdentificador = document.createElement("input");
+    inputIdentificador.type = "text";
+    inputIdentificador.name = "identificador";
+    inputIdentificador.id = "identificador";
+    inputIdentificador.classList.add("txtCard");
+    inputIdentificador.placeholder = "Digite seu CRM";
+    loginExtras.appendChild(inputIdentificador);
     }
+
   }
   
 

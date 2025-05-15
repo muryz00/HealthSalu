@@ -11,7 +11,7 @@
     <div class="containerLogin">
         <main class="mainLogin">
             <section class="area-login">
-                <img src="img/LOGO.png" id="imgLogin">
+                <a href="index.html"><img src="img/LOGO.png" id="imgLogin"></a>
 
                 <div class="button-box">
                     <button id="paciente" class="btn selected" onclick="selecionar('paciente')">Cadastro Paciente</button>
@@ -24,6 +24,7 @@
                     <input type="text" name="nome" id="nome" placeholder="Digite seu nome completo" class="txtCard" required>
                     <input type="text" name="cpf" placeholder="Digite seu CPF" id="cpf" class="txtCard" required>
                     <input type="email" name="email" placeholder="Digite seu Email" class="txtCard" id="email" required>
+                    <input type="text" name="telefone" placeholder="Digite seu telefone" id="telefone" class="txtCard" required>
                     <input type="date" name="dataNasc" id="dataNasc" required>
 
                     <div id="cadastroExtras"></div>
@@ -42,7 +43,6 @@
         </aside>
     </div>
 
-    <!-- Carrega o JS com Firebase + lógica de cadastro -->
     <script type="module" src="JS/FirebaseCadastro.js"></script>
     <script src="JS/cadastro.js"></script>
 </body>

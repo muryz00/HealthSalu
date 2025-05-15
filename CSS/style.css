@@ -33,7 +33,6 @@
 .hero p {
   font-size: 1.2rem;
   animation: fadeInUp 1.2s ease forwards;
-  max-width: 800px;
   margin: 0 auto;
   line-height: 1.6;
 }
@@ -1153,195 +1152,301 @@ input[type="date"] {
 
 
 /*inicio da diagramação da pagina CONFIGURAÇÕES*/
+/* Layout principal */
 .containerConfig {
-    display: grid;
-    grid-template-columns: 15fr 85fr;
-    height: 100vh;
-    grid-template-areas: "asideConfig mainConfig";
-  }
-  
-  #asideConfig {
-    grid-area: asideConfig;
-    background-color: #3232328e;
-    padding: 20px 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  #mainConfig {
-    grid-area: mainConfig;
-    padding: 40px;
-    background: linear-gradient(50deg, #3cd0a3 0%, #273469 70%);
-    overflow-y: auto;
-
-  }
-  
-  /* Estilização das opções no menu lateral */
-  .opcoesConfig {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .opcao {
-    color: white;
-    background-color: #181818;
-    padding: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .opcao:hover {
-    background-color: #36e4b0;
-    color: black;
-    transition: 0.3s;
-  }
-  
-  .opcaoSair:hover {
-    background-color: #cc0000;
-    color: black;
-    transition: 0.3s;
-  }
-
- /*estilização da parte PERFIL*/ 
-  .perfil-info {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 24px 32px;
-    background-color: #1e1f2f;
-    border-radius: 0 0 16px 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-
-  }
-  
-  .foto-perfil {
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid #36e4b0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .foto-perfil:hover {
-    transform: scale(1.06);
-    box-shadow: 0 0 8px #36e4b0;
-  }
-  
-  .perfil-nome {
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0;
-    word-break: break-word;
-  }
-  
-  .perfil-descricao {
-    color: #bbbbbb;
-    font-size: 16px;
-    margin: 4px 0;
-    word-break: break-word;
-  }
-  
-  #uploadFoto {
-    margin-top: 12px;
-    background-color: #36e4b0;
-    color: #1e1f2f;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  #uploadFoto:hover {
-    background-color: #2fcaa0;
-    transform: translateY(-1px);
-  }
-
-  /*estilização da parte SENHA*/
-  .dashboardConfig {
-    width: 100%;
-    margin: auto;
-    padding: 1.5%;
-    width: 70%;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-areas: "asideConfig mainConfig";
+  height: 100vh;
+  background-color: #121212;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
 }
 
-  .cardSenha {
-    background-color: #1e1f2f;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    margin: auto;
-    height: 100%;
+/* Sidebar */
+#asideConfig {
+  grid-area: asideConfig;
+  background-color: #1f1f1f;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.4);
+}
 
-    margin-bottom: 50px;
+.logoConfig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.logoConfig h2 {
+  margin-top: 10px;
+  color: #36e4b0;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+/* Opções de menu */
+.opcoesConfig {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 18px;
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #2a2a2a;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.opcao i {
+  color: #36e4b0;
+  font-size: 18px;
+}
+
+.opcao:hover {
+  background-color: #36e4b0;
+  color: #121212;
+  transform: translateX(5px);
+}
+
+.opcaoSair:hover {
+  background-color: #cc0000;
+  color: white;
+}
+
+/* Conteúdo principal */
+#mainConfig {
+  grid-area: mainConfig;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #36e4b0 0%, #273469 100%);
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Mensagem de boas-vindas */
+.mensagemBoasVindas {
+  text-align: center;
+  color: white;
+  animation: fadeIn 1s ease;
+}
+
+.mensagemBoasVindas h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.mensagemBoasVindas p {
+  font-size: 18px;
+  color: #dddddd;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .perfil-nome {
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    border-bottom: 2px solid #36e4b0;
-    padding-bottom: 10px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .labelConfig {
-    color: #dddddd;
-    font-size: 16px;
-    display: block;
-    margin-bottom: 6px;
-    margin-top: 16px;
+}
+
+/* Botão flutuante para home */
+#btnHome {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #36e4b0;
+  color: #1e1f2f;
+  border-radius: 50%;
+  padding: 18px;
+  font-size: 22px;
+  box-shadow: 0 0 12px rgba(54, 228, 176, 0.4);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  z-index: 999;
+}
+
+#btnHome:hover {
+  background-color: #2fcaa0;
+  transform: scale(1.1);
+}
+
+/* Perfil */
+.perfil-info {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+  background-color: #1e1f2f;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.8s ease;
+}
+
+.foto-perfil {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #36e4b0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.foto-perfil:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 14px #36e4b0;
+}
+
+.perfil-nome {
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #36e4b0;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+.perfil-descricao {
+  font-size: 16px;
+  color: #bbbbbb;
+  line-height: 1.6;
+}
+
+#uploadFoto {
+  margin-top: 12px;
+  background-color: #36e4b0;
+  color: #1e1f2f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#uploadFoto:hover {
+  background-color: #2fcaa0;
+  transform: translateY(-2px);
+}
+
+/* Formulário de senha */
+.dashboardConfig {
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+  padding: 2.5rem;
+  background-color: #1e1f2f;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.8s ease;
+}
+
+.cardSenha {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelConfig {
+  color: #dddddd;
+  font-size: 15px;
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+.input-config {
+  padding: 14px 18px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background-color: #2c2f3f;
+  color: #f0f0f0;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input-config:focus {
+  border-color: #36e4b0;
+  background-color: #303245;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(54, 228, 176, 0.25);
+}
+
+.botao-salvar {
+  margin-top: 30px;
+  padding: 16px;
+  background: linear-gradient(to right, #36e4b0, #2fcaa0);
+  color: #1e1f2f;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-salvar:hover {
+  background: linear-gradient(to right, #2fcaa0, #29b893);
+  transform: translateY(-2px);
+}
+
+.botao-salvar:active {
+  transform: scale(0.97);
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .containerConfig {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "asideConfig"
+      "mainConfig";
   }
-  
-  .input-config {
-    width: 100%;
-    padding: 12px 16px;
-    margin-bottom: 8px;
-    border: 1px solid #444;
-    border-radius: 10px;
-    background-color: #2c2f3f;
-    color: #f0f0f0;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  #asideConfig {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
   }
-  
-  .input-config:focus {
-    border-color: #36e4b0;
-    background-color: #303245;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(54, 228, 176, 0.2);
+
+  .opcoesConfig {
+    flex-direction: row;
+    gap: 12px;
   }
-  
-  .botao-salvar {
-    margin-top: 24px;
-    width: 100%;
-    background: linear-gradient(to right, #36e4b0, #2fcaa0);
-    color: #1e1f2f;
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+
+  .opcao {
+    padding: 12px;
+    font-size: 14px;
   }
-  
-  .botao-salvar:hover {
-    background: linear-gradient(to right, #2fcaa0, #29b893);
-    transform: translateY(-2px);
+
+  #mainConfig {
+    padding: 30px 20px;
   }
-  
-  .botao-salvar:active {
-    transform: scale(0.98);
+
+  .foto-perfil {
+    width: 140px;
+    height: 140px;
   }
-  
-  
-  
-  
+}
+
+
 /*fim da diagramação da pagina CONFIGURAÇÕES*/
 
 /*inicio diagramação pagina CONSULTA*/

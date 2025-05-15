@@ -26,10 +26,12 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
   const confirmSenha = document.getElementById("confirmSenha").value;
   const nome = document.getElementById("nome").value;
   const cpf = document.getElementById("cpf").value;
+    const telefone = document.getElementById("telefone").value;
   const dataNasc = document.getElementById("dataNasc").value;
   const tipo = document.getElementById("tipo").value;
-  const crm = document.getElementById("identificador")?.value || "";
-  const especialidade = tipo === "medico" ? document.getElementById("especialidade")?.value || "" : null;
+
+  const crm = tipo === "medico" ? document.getElementById("identificador")?.value || "" : undefined;
+  const especialidade = tipo === "medico" ? document.getElementById("especialidade")?.value || "" : undefined;
 
   if (senha !== confirmSenha) {
     alert("As senhas não coincidem!");
@@ -39,6 +41,7 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
     const user = userCredential.user;
+
     const collectionName = tipo === 'paciente' ? 'pacientes' : 'medicos';
 
     const userData = {
@@ -46,12 +49,14 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
       email,
       nome,
       cpf,
+      telefone,
       dataNasc,
       tipo,
-      crm
     };
 
     if (tipo === "medico") {
+      userData.crm = crm;
+      userData.telefone = telefone;
       userData.especialidade = especialidade;
     }
 

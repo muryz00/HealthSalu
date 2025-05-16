@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
+:root {
+    --verde-agua: #3cd0a3;
+    --azul-escuro: #273469;
+    --cinza-escuro: #151515;
+    --cinza-card: #1f2937;
+    --branco: #ffffff;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -404,52 +412,63 @@
 /* Fim Index */
 
 /*inicio da diagramação LOGIN e CADASTRO*/
-#bdLogin {
-    height: 100vh;
+/* Correções globais para permitir rolagem */
+html, body {
     margin: 0;
+    padding: 0;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#bdLogin {
+    min-height: 100vh;
     background: linear-gradient(50deg, #3cd0a3 0%, #273469 70%);
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     transition: background 0.5s ease-in-out;
+    padding: 20px;
+    overflow: visible;
 }
 
-.containerLogin{
+.containerLogin {
     display: grid;
     grid-template-areas: "mainLogin asideLogin";
     grid-template-columns: 50fr 50fr;
+    width: 100%;
+    max-width: 1200px;
 }
 
-.mainLogin{
+.mainLogin {
     grid-area: mainLogin;
 }
 
-.area-login{
+.area-login {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction:column;
+    flex-direction: column;
     margin-right: 200px;
     margin-left: 50px;
     margin-bottom: 4%;
 }
 
-.cardLogin{
+.cardLogin {
     height: 80px;
     width: 40px;
     background-color: #222224;
 }
 
-
-#formLogin{
+#formLogin {
     display: flex;
     flex-direction: column;
     width: 100%;
-   
 }
 
-#formLogin input{
+#formLogin input {
     margin-top: 5%;
     background-color: #464646;
     padding-left: 3%;
@@ -460,8 +479,8 @@
     color: white;
 }
 
-#imgLogin{
-    display: center;
+#imgLogin {
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 180px;
@@ -498,14 +517,14 @@
     transition: background 0.5s, opacity 0.3s;
 }
 
-.txtCard::placeholder{
+.txtCard::placeholder {
     color: white;
     font-size: 14px;
     opacity: 40%;
 }
 
-#medico{
-    background-color:#273469;
+#medico {
+    background-color: #273469;
 }
 
 #formLogin button {
@@ -529,22 +548,19 @@
 }
 
 input[type="date"] {
-    color: white; 
+    color: white;
+    position: relative;
+    padding-right: 10px;
+    width: 65%;
 }
 
-input[type="date"]::placeholder{
+input[type="date"]::placeholder {
     opacity: 40%;
 }
 
 input[type="password"] {
     position: relative;
     padding-right: 10px;
-}
-
-input[type="date"] {
-    position: relative;
-    padding-right: 10px;
-    width: 65%;
 }
 
 #formLogin [type="submit"]:hover {
@@ -574,37 +590,37 @@ input[type="date"] {
     background-color: #36e4b0;
 }
 
-#p{
+#p {
     color: white;
     margin-top: 5%;
 }
 
-#linkCadastro{
+#linkCadastro {
     color: #273469;
 }
 
-#linkCadastro:hover{
+#linkCadastro:hover {
     color: white;
     transition: 0.3s;
 }
 
-#linkCadastro.efeitos-link{
+#linkCadastro.efeitos-link {
     color: #36e4b0;
 }
 
-#linkCadastro.efeitos-link:hover{
+#linkCadastro.efeitos-link:hover {
     color: #273469;
 }
 
-#linkCadastro.efeitos-link-verde{
+#linkCadastro.efeitos-link-verde {
     color: #273469;
 }
 
-#linkCadastro.efeitos-link-verde:hover{
+#linkCadastro.efeitos-link-verde:hover {
     color: #36e4b0;
 }
 
-.asideLogin{
+.asideLogin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -612,10 +628,78 @@ input[type="date"] {
 }
 
 .asideLogin img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
+    object-fit: contain;
     transition: opacity 0.5s ease-in-out;
 }
+
+/* --- Responsividade --- */
+@media (max-width: 1024px) {
+    .containerLogin {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "mainLogin"
+            "asideLogin";
+    }
+
+    .area-login {
+        margin: 20px;
+        width: 90%;
+    }
+
+    #imgLogin {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .button-box {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    #formLogin input {
+        width: 100%;
+    }
+
+    input[type="date"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #bdLogin {
+        padding: 10px;
+    }
+
+    .area-login {
+        margin: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .asideLogin {
+        display: none;
+    }
+
+    #formLogin button,
+    #btnEntrar {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+}
+
 /*Fim diagramação LOGIN e CADASTRO*/
 
 /*inicio da diagramação CONTATO*/

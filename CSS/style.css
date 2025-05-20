@@ -1076,6 +1076,23 @@ input[type="password"] {
     color: black;
 }
 
+.cardBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f2937; /* bg-gray-800 */
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cardBtn:hover {
+  background-color: #34d399; /* bg-emerald-400 */
+  transition: 0.5s;
+  color: black;
+}
+
 .tipo-funcionalidades {
     background-color: #1f2937; /* bg-gray-800 */
     border: 2px solid #34d399; /* border-emerald-400 */

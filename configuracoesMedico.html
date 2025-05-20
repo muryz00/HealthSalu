@@ -1,48 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações | Health Salu</title>
+  <link rel="stylesheet" href="CSS/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
-  <title>Configurações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
+
 <body id="bdFuncionalidades">
+  <div class="containerConfig">
+    
+    <!-- Sidebar -->
+    <aside id="asideConfig">
+      <div class="logoConfig">
+        <i class="fas fa-user-cog fa-2x" style="color: #36e4b0;"></i>
+        <h2 style="color: white; margin-top: 10px;">Health Salu</h2>
+      </div>
 
-    <div class="containerConfig">
-
-      <aside id="asideConfig">
-        <div class="opcoesConfig">
-          
-          <div class="opcao" id="btnPerfil">
-            <h3>Perfil</h3>
-          </div>
-          
-          <div class="opcao" id="btnSenha">
-            <h3>Senha</h3>
-          </div>
-          
-          <div class="opcao opcaoSair" id="btnSair">
-            <h3>Sair</h3>
-          </div> 
-            
+      <div class="opcoesConfig">
+        <div class="opcao" id="btnPerfil">
+          <i class="fas fa-user"></i> <span>Perfil</span>
         </div>
-      </aside>
 
-      <main id="mainConfig">
+        <div class="opcao" id="btnSenha">
+          <i class="fas fa-lock"></i> <span>Senha</span>
+        </div>
 
-      </main>
+        <div class="opcao opcaoSair" id="btnSair">
+          <i class="fas fa-sign-out-alt"></i> <span>Sair</span>
+        </div>
+      </div>
+      
+    </aside>
 
-    </div>
+    <!-- Área principal -->
+    <main id="mainConfig">
+      <div class="mensagemBoasVindas">
+        <h1>Bem-vindo às Configurações</h1>
+        <p>Selecione uma opção no menu ao lado para começar.</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Configurações" style="width: 200px; margin-top: 30px;" />
+      </div>
+    </main>
+  </div>
 
-    <a href="dashboardMedico.html" id="btnHome" title="Voltar à Home">
-      <i class="fas fa-home"></i>
-    </a>
+  <!-- Botão flutuante para voltar à home -->
+  <a href="dashboardMedico.html" id="btnHome" title="Voltar à Home">
+    <i class="fas fa-home"></i>
+  </a>
 
-<script src="JS/grafico.js"></script>    
-<script src="JS/script.js"></script>
+  <!-- Scripts -->
+  <script type="module" src="JS/firebaseConfiguracoes.js"></script>
+  <script type="module" src="JS/configuracoes.js"></script>
 </body>
 </html>

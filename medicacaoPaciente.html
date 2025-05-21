@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,39 +14,27 @@
 
     <div class="dashboardFuncionalidades">
         
-            <header class="headerFuncionalidades">
-                <h1>Prescrições Recebidas</h1>
-            </header>
+        <header class="headerFuncionalidades">
+            <h1>Prescrições Recebidas</h1>
+        </header>
 
         <div class="dashboard7">
-
             <input type="text" class="inputSearch" placeholder="Receitas, remédios...">
-
             <div class="cardFuncionalidades" id="cardBtn">
                 <h1 style="font-size: 130%;">Pesquisar</h1>
             </div>
         </div>
         
-            <table id="tableExercicio">
-                <thead>
-                    <tr id="thExercicio">
-                        <th>Dosagem</th>
-                        <th>Data da prescrição</th>
-                        <th>Horário</th>
-                        <th>Recomendações</th>                    
-                    </tr>
-                </thead>
-            </table>
-
-        </div>
-
-        </div>
+        <!-- Aqui os cards serão inseridos -->
+        <div id="containerPrescricoes" class="containerPrescricoes"></div>
   
         <a href="dashboard.html" id="btnHome" title="Voltar à Home">
             <i class="fas fa-home"></i>
-          </a>
+        </a>
+
+    </div>
           
     <script src="JS/paciente.js"></script>
     <script type="module" src="JS/FirebaseMedicamentoPaciente.js"></script>
-  </body>
+</body>
 </html>

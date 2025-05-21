@@ -28,15 +28,26 @@ document.getElementById('btnPrescricao').addEventListener('click', salvarPrescri
 
 async function salvarPrescricao() {
   const medico = auth.currentUser;
-  console.log("Usuário autenticado:", medico);
-
   if (!medico) {
     alert("Usuário não autenticado.");
     return;
   }
 
-  const cpfPaciente = document.getElementById("cpfPaciente").value;
+  // Buscar nome do médico na coleção "medico"
+  const medicoRef = collection(db, "medicos");
+  const medicoQuery = query(medicoRef, where("uid", "==", medico.uid));
+  const medicoSnapshot = await getDocs(medicoQuery);
 
+  if (medicoSnapshot.empty) {
+    alert("Dados do médico não encontrados.");
+    return;
+  }
+
+  const medicoData = medicoSnapshot.docs[0].data();
+  const nomeMedico = medicoData.nome;
+
+  // Verificação do CPF do paciente
+  const cpfPaciente = document.getElementById("cpfPaciente").value;
   if (!cpfPaciente) {
     alert("CPF do paciente é obrigatório.");
     return;
@@ -64,9 +75,8 @@ async function salvarPrescricao() {
     intervaloHoras: document.getElementById("intervaloHoras").value,
     dataPrescricao: Timestamp.now(),
     medicoId: medico.uid,
+    nomeMedico: nomeMedico // ← nome preenchido automaticamente
   };
-
-  console.log("Dados que serão enviados:", dadosPrescricao);
 
   try {
     await addDoc(collection(db, "prescricoes"), dadosPrescricao);

@@ -1,58 +1,55 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  Timestamp
+    getFirestore,
+    collection,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-// Config Firebase
+// Configuração do Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
-  authDomain: "api-cadastro-5ab06.firebaseapp.com",
-  projectId: "api-cadastro-5ab06",
-  storageBucket: "api-cadastro-5ab06.appspot.com",
-  messagingSenderId: "1090059146851",
-  appId: "1:1090059146851:web:9731938ed7b23952b3ca56",
-  measurementId: "G-0FYR4JFV44"
+    apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
+    authDomain: "api-cadastro-5ab06.firebaseapp.com",
+    projectId: "api-cadastro-5ab06",
+    storageBucket: "api-cadastro-5ab06.appspot.com",
+    messagingSenderId: "1090059146851",
+    appId: "1:1090059146851:web:9731938ed7b23952b3ca56",
+    measurementId: "G-0FYR4JFV44"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Função para carregar prescrições e colocar na tabela
+// Função para carregar prescrições ao abrir a página
 async function carregarPrescricoes() {
-  const tbody = document.getElementById('tbodyPrescricoes');
-  tbody.innerHTML = ''; // Limpa tabela antes de carregar
+  const container = document.getElementById('containerPrescricoes');
+  container.innerHTML = ''; // Limpa o container antes de adicionar os cards
 
   try {
-    const querySnapshot = await getDocs(collection(db, "prescricoes"));
+      const querySnapshot = await getDocs(collection(db, "prescricoes"));
 
-    querySnapshot.forEach(doc => {
-      const data = doc.data();
+      querySnapshot.forEach(doc => {
+          const data = doc.data();
+          const dataPrescricao = data.dataPrescricao?.toDate().toLocaleDateString() || "";
 
-      // Converter timestamp para data legível, se existir
-      const dataPrescricao = data.dataPrescricao?.toDate().toLocaleDateString() || "";
-      // Se não tem campo horario, pode usar dataPrescricao para horário ou ajustar conforme seu banco
-      const horario = data.horario || "";
+          const cardHTML = `
+              <div class="cardPrescricao">
+                  <h2><i class="fas fa-capsules"></i> Medicamento: <span>${data.nomeMedicamento || ""}</span></h2>
+                  <p><strong>Dosagem:</strong> ${data.dosagem || ""}</p>
+                  <p><strong>Frequência Diária:</strong> ${data.frequenciaDiaria || ""}</p>
+                  <p><strong>Duração (dias):</strong> ${data.duracaoDias || ""}</p>
+                  <p><strong>Intervalo (horas):</strong> ${data.intervaloHoras || ""}</p>
+                  <p><strong>Data da Prescrição:</strong> ${dataPrescricao}</p>
+                  <p><strong>Nome do Médico:</strong> Dr(a). ${data.nomeMedico || "Não informado"}</p>
+              </div>
+          `;
 
-      // Monta linha da tabela
-      const linha = `
-        <tr>
-          <td>${data.dosagem || ""}</td>
-          <td>${dataPrescricao}</td>
-          <td>${horario}</td>
-          <td>${data.recomendacoes || ""}</td>
-        </tr>
-      `;
-
-      tbody.insertAdjacentHTML('beforeend', linha);
-    });
+          container.insertAdjacentHTML('beforeend', cardHTML);
+      });
 
   } catch (error) {
-    console.error("Erro ao carregar prescrições:", error);
+      console.error("Erro ao carregar prescrições:", error);
   }
 }
 

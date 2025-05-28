@@ -1277,11 +1277,6 @@ input[type="password"] {
     transition: 0.3s ease-in-out;
 }
 
-.historico{
-  overflow-y: scroll;
-}
-
-
 #menuExercicio {
     height: 6vh;
     margin-left: 20px;

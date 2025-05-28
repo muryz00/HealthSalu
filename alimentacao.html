@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body id="bdFuncionalidades">
-    <script src="JS/alimentacao.js"></script>
 
     <div class="dashboardFuncionalidades">
 
@@ -24,7 +23,7 @@
 
             <div class="cardFuncionalidades">
                 <h2>Alimentos</h2><br>
-                <input type="text" id="alimento" placeholder="Digite um alimento" oninput="buscarAlimentos()">            
+                <input type="text" id="alimento" placeholder="Digite um alimento">            
 
                 <p class="descAlimentacao"><strong>Alimento:</strong><span id="nome-alimento">-</span></p>
                 <p><strong>Calorias:</strong> <span id="calorias">-</span></p>
@@ -85,31 +84,34 @@
 
         <section class="tables">
 
-            <div class="table historico">
+            <div class="table">
 
                 <h2>Histórico</h2><br>
 
-                <table id="tableAlimento">
+		        <div class="table-container">
 
-                    <tr id="thAlimento">
-                        <th>Alimento</th>
-                        <th>QTD de Alimentos</th>
-                        <th>Calorías</th>
-                        <th>Gordura</th>
-                        <th>Proteína</th>
-                        <th>Carboídrato</th>
-                        <th>Descrição de IMC</th>
-                        <th>Data da Alimentação</th>
-                    </tr>
+                    <table id="tableAlimento">
 
-                </table>
+                        <tr id="thAlimento">
+                            <th>Alimento</th>
+                            <th>QTD de Alimentos</th>
+                            <th>Calorías</th>
+                            <th>Gordura</th>
+                            <th>Proteína</th>
+                            <th>Carboídrato</th>
+                            <th>Descrição de IMC</th>
+                            <th>Data da Alimentação</th>
+                        </tr>
+
+                    </table>
+                </div>
 
             </div>
 
             <div class="chart">
 
                 <div class="chart">
-                    <canvas id="imcChart2"></canvas>
+                    <canvas id="macroChart"></canvas>
                 </div>
 
             </div>
@@ -122,6 +124,7 @@
         
         </div>
 
-
+        <script type="module" src="JS/FirebaseAlimentacao.js"></script>
+        <script type="module" src="JS/alimentacao.js"></script>
 </body>
 </html>

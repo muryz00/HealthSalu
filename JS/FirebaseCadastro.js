@@ -51,7 +51,6 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
       cpf,
       telefone,
       dataNasc,
-      tipo,
     };
 
     if (tipo === "medico") {

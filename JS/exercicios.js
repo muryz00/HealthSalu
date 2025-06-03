@@ -25,7 +25,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Visual state
 let cpfPacienteGlobal = null;
 let treinoHistorico = [];
 let historicoIMC = [];
@@ -39,16 +38,14 @@ const caloriasPorMinuto = {
   musculação: 5
 };
 
-// Ao logar, busca o CPF e carrega histórico
-onAuthStateChanged(auth, async (user) => {
+// Autenticação e carregamento inicial
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    const pacienteSnap = await getDocs(query(collection(db, "pacientes"), where("uid", "==", user.uid)));
-
-    if (!pacienteSnap.empty) {
-      cpfPacienteGlobal = pacienteSnap.docs[0].data().cpf;
-      carregarHistoricoExercicios(); // Carregar histórico visual
+    cpfPacienteGlobal = localStorage.getItem('cpfPaciente');
+    if (cpfPacienteGlobal) {
+      carregarHistoricoExercicios();
     } else {
-      alert("Paciente não encontrado.");
+      console.warn("CPF do paciente não encontrado no localStorage.");
     }
   } else {
     alert("Você precisa estar logado.");
@@ -56,15 +53,28 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+//Carrega dados diretos para gerar graficos e tabelas
 async function carregarHistoricoExercicios() {
-  const exerciciosSnap = await getDocs(query(collection(db, "exercicios"), where("cpfPaciente", "==", cpfPacienteGlobal)));
+  
+  treinoHistorico = [];
+  historicoIMC = [];
 
-  exerciciosSnap.forEach(doc => {
+  // Limpa tabela e observações ao carregar
+  const tabela = document.getElementById('tableExercicio');
+  if (tabela) {
+    // Remove todas as linhas, menos o cabeçalho (linha 0)
+    while(tabela.rows.length > 1) tabela.deleteRow(1);
+  }
+  document.getElementById('observacoes').innerHTML = "";
+
+  const q = query(collection(db, "exercicios"), where("cpfPaciente", "==", cpfPacienteGlobal));
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach(doc => {
     const data = doc.data();
-    const imc = data.imc.toFixed(2);
+    const imc = parseFloat(data.imc).toFixed(2);
     const descricaoIMC = data.descricaoImc;
 
-    // Atualizar arrays
     treinoHistorico.push({
       exercise: data.tipo,
       duration: data.duracao,
@@ -76,16 +86,13 @@ async function carregarHistoricoExercicios() {
       imc: parseFloat(imc)
     });
 
-    // Atualizar tabela
     atualizarTabela(data.tipo, data.duracao, data.calorias, descricaoIMC);
   });
 
-  // Gerar gráficos
   gerarGraficoCalorias();
   gerarGraficoIMC();
 }
 
-// Funções reutilizadas
 function calcularIMC(peso, altura) {
   return (peso / (altura * altura)).toFixed(2);
 }
@@ -127,21 +134,16 @@ window.calcularDados = async function () {
   };
 
   try {
-    // Salvar no Firebase
     await addDoc(collection(db, "exercicios"), dados);
 
-    // Atualizar arrays locais
     treinoHistorico.push({ exercise: tipoExercicio, duration: duracao, calorias });
     historicoIMC.push({ treino: tipoExercicio, imc: parseFloat(imc) });
 
-    // Atualizar tabela
     atualizarTabela(tipoExercicio, duracao, calorias, descricaoIMC);
 
-    // Atualizar gráficos imediatamente
     gerarGraficoCalorias();
     gerarGraficoIMC();
 
-    // Gerar observação automática
     gerarObservacao(tipoExercicio, duracao);
 
   } catch (error) {

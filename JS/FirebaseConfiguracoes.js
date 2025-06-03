@@ -34,33 +34,30 @@ export const db = getFirestore(app);
 export async function buscarDadosUsuario() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        console.warn("Usuário não autenticado.");
-        return reject(new Error("Usuário não está autenticado."));
-      }
+      if (!user) return reject(new Error("Usuário não autenticado."));
 
-      console.log("Usuário autenticado:", user);
+      // ⚠️ Recupera CPF do localStorage
+      const cpfSalvo = localStorage.getItem("cpfPaciente");
+
+      if (!cpfSalvo) return reject(new Error("CPF do usuário não encontrado."));
 
       const colecoes = ['pacientes', 'medicos'];
       let dados = null;
 
       try {
         for (const col of colecoes) {
-          const q = query(collection(db, col), where("uid", "==", user.uid));
+          const q = query(collection(db, col), where("cpf", "==", cpfSalvo));
           const querySnapshot = await getDocs(q);
 
           if (!querySnapshot.empty) {
-            const docSnap = querySnapshot.docs[0]; 
+            const docSnap = querySnapshot.docs[0];
             dados = docSnap.data();
             dados.tipo = col === 'medicos' ? 'medico' : 'paciente';
             break;
           }
         }
 
-        if (!dados) {
-          console.warn("Documento não encontrado nas coleções.");
-          return reject(new Error("Dados do usuário não encontrados no Firestore."));
-        }
+        if (!dados) return reject(new Error("Usuário não encontrado no banco."));
 
         return resolve({
           nome: dados.nome || "Sem nome",
@@ -68,17 +65,18 @@ export async function buscarDadosUsuario() {
           telefone: dados.telefone || null,
           idade: dados.idade || null,
           cpf: dados.cpf || null,
-          dataNasc: dados.dataNasc || null,
+          dataNascimento: dados.dataNascimento || null,
           tipo: dados.tipo || "paciente"
         });
 
       } catch (erro) {
-        console.error("Erro ao buscar dados do usuário:", erro);
+        console.error("Erro ao buscar dados:", erro);
         return reject(new Error("Erro ao buscar dados do usuário."));
       }
     });
   });
 }
+
 
 export async function redefinirSenha(novaSenha) {
   const user = auth.currentUser;

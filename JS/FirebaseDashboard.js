@@ -4,7 +4,8 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
 // Configuração Firebase
@@ -35,17 +36,28 @@ document.addEventListener("DOMContentLoaded", () => {
 async function carregarGraficoExercicio(cpf) {
     try {
         const exerciciosRef = collection(db, "exercicios");
+
+        // Opcional: ordenar por data se o campo existir
         const q = query(exerciciosRef, where("cpfPaciente", "==", cpf));
+
         const querySnapshot = await getDocs(q);
 
-        const dados = [];
-        const labels = [];
+        const dadosPorTipo = {}; // Para agrupar por tipo de exercício
 
         querySnapshot.forEach(doc => {
-            const dado = doc.data();
-            labels.push(dado.tipo);
-            dados.push(dado.calorias);
+            const exercicio = doc.data();
+            const tipo = exercicio.tipo;
+            const calorias = exercicio.calorias || 0;
+
+            if (dadosPorTipo[tipo]) {
+                dadosPorTipo[tipo] += calorias;
+            } else {
+                dadosPorTipo[tipo] = calorias;
+            }
         });
+
+        const labels = Object.keys(dadosPorTipo);
+        const dados = Object.values(dadosPorTipo);
 
         gerarGraficoExercicios(labels, dados);
     } catch (error) {
@@ -67,7 +79,7 @@ function gerarGraficoExercicios(labels, dados) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Calorias Gastas',
+                label: 'Calorias Gastas por Tipo de Exercício',
                 data: dados,
                 backgroundColor: 'rgba(60, 208, 163, 0.5)',
                 borderColor: '#3cd0a3',

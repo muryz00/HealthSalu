@@ -27,7 +27,7 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
   const nome = document.getElementById("nome").value;
   const cpf = document.getElementById("cpf").value;
     const telefone = document.getElementById("telefone").value;
-  const dataNasc = document.getElementById("dataNasc").value;
+  const dataNascimento = document.getElementById("dataNascimento").value;
   const tipo = document.getElementById("tipo").value;
 
   const crm = tipo === "medico" ? document.getElementById("identificador")?.value || "" : undefined;
@@ -45,12 +45,11 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
     const collectionName = tipo === 'paciente' ? 'pacientes' : 'medicos';
 
     const userData = {
-      uid: user.uid,
       email,
       nome,
       cpf,
       telefone,
-      dataNasc,
+      dataNascimento,
     };
 
     if (tipo === "medico") {

@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-document.getElementById("formLogin").addEventListener("submit", async function(e) {
+document.getElementById("formLogin").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const identificador = document.getElementById("email").value;
@@ -42,6 +42,14 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
     const user = userCredential.user;
 
     alert("Login realizado com sucesso!");
+
+    // 🔐 Salva dados no localStorage com nomes específicos
+    if (tipo === "paciente") {
+      localStorage.setItem("cpfPaciente", identificador);
+    } else {
+      localStorage.setItem("crmMedico", identificador);
+    }
+    localStorage.setItem("tipo", tipo);
 
     // Redireciona para a página correta
     if (tipo === "paciente") {

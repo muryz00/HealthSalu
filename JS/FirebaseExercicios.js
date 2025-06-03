@@ -27,28 +27,6 @@ const db = getFirestore(app);
 
 let cpfPacienteGlobal = null;
 
-// 🔥 Salvar CPF automaticamente no localStorage
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const pacienteRef = collection(db, "pacientes");
-    const q = query(pacienteRef, where("uid", "==", user.uid));
-    const snapshot = await getDocs(q);
-
-    if (!snapshot.empty) {
-      const pacienteData = snapshot.docs[0].data();
-      cpfPacienteGlobal = pacienteData.cpf;
-      localStorage.setItem('cpfPaciente', cpfPacienteGlobal); // <-- 🔥 Salva aqui
-      console.log("CPF do paciente:", cpfPacienteGlobal);
-    } else {
-      alert("Paciente não encontrado.");
-    }
-  } else {
-    alert("Usuário não autenticado.");
-    window.location.href = "login.html";
-  }
-});
-
-
 // ====================== FUNÇÃO PARA CADASTRAR EXERCÍCIOS ============================
 window.calcularDados = async function () {
   const tipo = document.getElementById("tipo-exercicio").value;

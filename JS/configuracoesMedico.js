@@ -29,7 +29,7 @@ document.getElementById('btnPerfil').addEventListener('click', async () => {
               <div class="cardFuncionalidades">
                 <h2>Dados Pessoais</h2>
                 <p>CPF: ${usuario.cpf || 'Não informado'}</p>
-                <p>Data de Nascimento: ${usuario.dataNasc || 'Não informado'}</p>
+                <p>Data de Nascimento: ${usuario.dataNascimento || 'Não informado'}</p>
                 <p>Idade: ${usuario.idade || 'Não informado'}</p>
               </div>
             </div>

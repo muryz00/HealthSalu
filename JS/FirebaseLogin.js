@@ -1,3 +1,4 @@
+// firebaseLogin.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
@@ -19,14 +20,16 @@ const db = getFirestore(app);
 document.getElementById("formLogin").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const identificador = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
-  const tipo = document.getElementById("tipo").value;
+  const identificador = document.getElementById("email").value.trim();
+  const senha        = document.getElementById("senha").value.trim();
+  const tipo         = document.getElementById("tipo").value; // "paciente" ou "medico"
 
+  // Determina a coleção e o campo para pesquisa (CPF para paciente, CRM para médico)
   const colecao = tipo === "paciente" ? "pacientes" : "medicos";
-  const campo = tipo === "paciente" ? "cpf" : "crm";
+  const campo   = tipo === "paciente" ? "cpf"       : "crm";
 
   try {
+    // 1) Faz uma query para ver se o CPF/CRM existe na coleção certa
     const q = query(collection(db, colecao), where(campo, "==", identificador));
     const querySnapshot = await getDocs(q);
 
@@ -35,23 +38,31 @@ document.getElementById("formLogin").addEventListener("submit", async function (
       return;
     }
 
+    // 2) Se encontrou, extrai o e-mail do documento
     const docData = querySnapshot.docs[0].data();
-    const email = docData.email;
+    const email   = docData.email;
+    if (!email) {
+      alert("E-mail não cadastrado para este usuário.");
+      return;
+    }
 
+    // 3) Tenta fazer login com esse e-mail + senha
     const userCredential = await signInWithEmailAndPassword(auth, email, senha);
     const user = userCredential.user;
 
-    alert("Login realizado com sucesso!");
-
-    // 🔐 Salva dados no localStorage com nomes específicos
+    // 4) Se deu certo, guardamos no localStorage:
+    //    - o tipo ("paciente" ou "medico")
+    //    - o identificador (CPF ou CRM) para uso posterior nos dashboards
+    localStorage.setItem("tipo", tipo);
     if (tipo === "paciente") {
       localStorage.setItem("cpfPaciente", identificador);
     } else {
       localStorage.setItem("crmMedico", identificador);
     }
-    localStorage.setItem("tipo", tipo);
 
-    // Redireciona para a página correta
+    alert("Login realizado com sucesso!");
+
+    // 5) Redireciona para a página correta
     if (tipo === "paciente") {
       window.location.href = "dashboard.html";
     } else {

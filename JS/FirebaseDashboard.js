@@ -1,107 +1,200 @@
+// firebaseDashboard.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
-    getFirestore,
-    collection,
-    query,
-    where,
-    getDocs,
-    orderBy
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-// Configuração Firebase
+// ==========================
+// 1) Configuração do Firebase
+// ==========================
 const firebaseConfig = {
-    apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
-    authDomain: "api-cadastro-5ab06.firebaseapp.com",
-    projectId: "api-cadastro-5ab06",
-    storageBucket: "api-cadastro-5ab06.appspot.com",
-    messagingSenderId: "1090059146851",
-    appId: "1:1090059146851:web:9731938ed7b23952b3ca56",
-    measurementId: "G-0FYR4JFV44"
+  apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
+  authDomain: "api-cadastro-5ab06.firebaseapp.com",
+  projectId: "api-cadastro-5ab06",
+  storageBucket: "api-cadastro-5ab06.appspot.com",
+  messagingSenderId: "1090059146851",
+  appId: "1:1090059146851:web:9731938ed7b23952b3ca56",
+  measurementId: "G-0FYR4JFV44"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db  = getFirestore(app);
 
+// ==========================
+// 2) Ao carregar a página, pega o CPF diretamente do localStorage
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
-    const cpfPaciente = localStorage.getItem('cpfPaciente');
+  const cpfPaciente = localStorage.getItem("cpfPaciente");
+  if (!cpfPaciente) {
+    console.warn("CPF do paciente não encontrado. Faça login novamente.");
+    alert("Faça login antes de acessar o dashboard.");
+    window.location.href = "login.html";
+    return;
+  }
 
-    if (!cpfPaciente) {
-        console.warn("CPF do paciente não encontrado.");
-        return;
-    }
-
-    carregarGraficoExercicio(cpfPaciente);
+  carregarGraficoExercicio(cpfPaciente);
+  carregarGraficoAlimentacao(cpfPaciente);
 });
 
+let caloriesChart        = null;
+let caloriesGainedChart  = null;
+
+// ==========================
+// 3) Função para carregar Gráfico de Exercícios
+// ==========================
 async function carregarGraficoExercicio(cpf) {
-    try {
-        const exerciciosRef = collection(db, "exercicios");
+  try {
+    // 3.1) Faz a query na coleção "exercicios", filtrando por "cpfPaciente"
+    const exerciciosRef = collection(db, "exercicios");
+    const qExerc = query(exerciciosRef, where("cpfPaciente", "==", cpf));
+    const snapshotExerc = await getDocs(qExerc);
 
-        // Opcional: ordenar por data se o campo existir
-        const q = query(exerciciosRef, where("cpfPaciente", "==", cpf));
+    // 3.2) Agrupa calorias por tipo de exercício
+    const dadosPorTipo = {};
+    snapshotExerc.forEach((doc) => {
+      const exerc = doc.data();
+      const tipo      = exerc.tipo;                          // nome do tipo (por ex: "corrida")
+      const calorias  = Number(exerc.calorias) || 0;         // converte para Number
 
-        const querySnapshot = await getDocs(q);
+      if (!tipo) return;   // Se não tiver campo "tipo", pula esse documento
 
-        const dadosPorTipo = {}; // Para agrupar por tipo de exercício
+      if (dadosPorTipo[tipo]) {
+        dadosPorTipo[tipo] += calorias;
+      } else {
+        dadosPorTipo[tipo] = calorias;
+      }
+    });
 
-        querySnapshot.forEach(doc => {
-            const exercicio = doc.data();
-            const tipo = exercicio.tipo;
-            const calorias = exercicio.calorias || 0;
+    // 3.3) Extrai labels e valores para passar ao Chart.js
+    const labels = Object.keys(dadosPorTipo);              // ex: ["corrida", "natação"]
+    const dados  = Object.values(dadosPorTipo);             // ex: [300, 120]
 
-            if (dadosPorTipo[tipo]) {
-                dadosPorTipo[tipo] += calorias;
-            } else {
-                dadosPorTipo[tipo] = calorias;
-            }
-        });
-
-        const labels = Object.keys(dadosPorTipo);
-        const dados = Object.values(dadosPorTipo);
-
-        gerarGraficoExercicios(labels, dados);
-    } catch (error) {
-        console.error("Erro ao carregar dados de exercícios:", error);
-    }
+    gerarGraficoExercicios(labels, dados);
+  } catch (error) {
+    console.error("Erro ao carregar dados de exercícios:", error);
+  }
 }
 
-let caloriesChart = null;
-
 function gerarGraficoExercicios(labels, dados) {
-    const ctx = document.getElementById("caloriesChart").getContext("2d");
+  // 3.4) Gera o gráfico de barras em cima de <canvas id="caloriesChart">
+  const ctx = document.getElementById("caloriesChart").getContext("2d");
+  if (caloriesChart) {
+    caloriesChart.destroy();
+  }
 
-    if (caloriesChart) {
-        caloriesChart.destroy();
-    }
-
-    caloriesChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Calorias Gastas por Tipo de Exercício',
-                data: dados,
-                backgroundColor: 'rgba(60, 208, 163, 0.5)',
-                borderColor: '#3cd0a3',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    labels: { color: 'white' }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: 'white' }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: { color: 'white' }
-                }
-            }
+  caloriesChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Calorias Gastas por Tipo de Exercício",
+          data: dados,
+          backgroundColor: "rgba(60, 208, 163, 0.5)",
+          borderColor: "#3cd0a3",
+          borderWidth: 2
         }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: { color: "white" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "white" }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: "white" }
+        }
+      }
+    }
+  });
+}
+
+// ==========================
+// 4) Função para carregar Gráfico de Alimentação
+// ==========================
+async function carregarGraficoAlimentacao(cpf) {
+  try {
+    // 4.1) Faz a query na coleção "alimentacao", filtrando por "cpfPaciente"
+    const alimentacaoRef = collection(db, "alimentacao");
+    const qAlim = query(alimentacaoRef, where("cpfPaciente", "==", cpf));
+    const snapshotAlim = await getDocs(qAlim);
+
+    // 4.2) Agrupa calorias por “nome do alimento”
+    const dadosPorAlimento = {};
+    snapshotAlim.forEach((doc) => {
+      const dado = doc.data();
+
+      const alimento = dado.nomeAlimento;           // <— ajuste conforme seu Firestore
+      const calorias = Number(dado.calorias) || 0;
+
+      if (!alimento) return;  // pula se tiver undefined ou string vazia
+
+      if (dadosPorAlimento[alimento]) {
+        dadosPorAlimento[alimento] += calorias;
+      } else {
+        dadosPorAlimento[alimento] = calorias;
+      }
     });
+
+    // 4.3) Extrai arrays de labels e dados
+    const labels = Object.keys(dadosPorAlimento);
+    const dados  = Object.values(dadosPorAlimento);
+
+    gerarGraficoAlimentacao(labels, dados);
+  } catch (error) {
+    console.error("Erro ao carregar dados de alimentação:", error);
+  }
+}
+
+function gerarGraficoAlimentacao(labels, dados) {
+  // 4.4) Gera o gráfico de barras em cima de <canvas id="caloriesgainedChart">
+  const ctx = document.getElementById("caloriesgainedChart").getContext("2d");
+  if (caloriesGainedChart) {
+    caloriesGainedChart.destroy();
+  }
+
+  caloriesGainedChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Calorias Consumidas por Alimento",
+          data: dados,
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: { color: "white" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "white" }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: "white" }
+        }
+      }
+    }
+  });
 }

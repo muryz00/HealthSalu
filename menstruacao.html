@@ -1,77 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="CSS/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
-    <title>Registro Menstrual</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="CSS/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Registro Menstrual</title>
 </head>
 <body id="bdFuncionalidades">
 
-    <div class="dashboardFuncionalidades">
+  <div class="dashboardFuncionalidades">
+    <header class="headerFuncionalidades">
+      <h1>Registrar Ciclo Menstrual</h1>
+    </header>
 
-        <header class="headerFuncionalidades">
-            <h1>Registrar Ciclo Menstrual</h1>
-        </header>
+    <section class="stats">
+      <div class="cardFuncionalidades">
+        <h1>Data de Início</h1>
+        <input type="date" id="dataInicio" required />
+      </div>
+      <div class="cardFuncionalidades">
+        <h1>Data de Fim</h1>
+        <input type="date" id="dataFim" required />
+      </div>
+      <div class="cardFuncionalidades">
+        <h1>Fluxo</h1>
+        <select id="fluxo" class="tipo-funcionalidades" required>
+          <option value="leve">Leve</option>
+          <option value="moderado">Moderado</option>
+          <option value="intenso">Intenso</option>
+        </select>
+      </div>
+      <div class="cardFuncionalidades">
+        <h1>Observações</h1>
+        <textarea id="observacoes" placeholder="Ex: cólicas, dor de cabeça..."></textarea>
+      </div>
+    </section>
 
-            <section class="stats">
+    <section class="stats">
+      <div class="cardFuncionalidades" id="cardBtn">
+        <h1 style="margin-bottom: 10px;">Salvar Registro</h1>
+      </div><br>
+    </section>
 
-                <div class="cardFuncionalidades">
-                    <h1>Data de Início</h1>
-                    <input type="date" id="dataInicio" required />
-                </div>
+    <section class="dashboard3">
 
-                <div class="cardFuncionalidades">
-                    <h1>Data de Fim</h1>
-                    <input type="date" id="dataFim" required />
-                </div>
+      <div class="chart calender">
+        <canvas id="fluxoChart"></canvas>
+      </div>
 
-                <div class="cardFuncionalidades">
-                    <h1>Fluxo</h1>
-                    <select id="fluxo" class="tipo-funcionalidades" required>
-                        <option value="leve">Leve</option>
-                        <option value="moderado">Moderado</option>
-                        <option value="intenso">Intenso</option>
-                    </select>
-                </div>
-
-            </section>
-
-            <section class="stats">
-
-                <div class="cardFuncionalidades">
-                    <h1>Observações</h1>
-                    <textarea id="observacoes" placeholder="Ex: cólicas, dor de cabeça, fluxo incomum..."></textarea>
-                </div>
-                
-            </section>
-
-            <section class="dashboard6" >
-                
-                <div class="chart">
-                    <div class="cardFuncionalidades chart" id="cardBtn" onclick="salvarRegistroMenstruacao()">
-                        <h1 style="margin-bottom: 10px;">Salvar Registro</h1>
-                    </div><br>  
-                </div>
-                
-                <div class="chart">
-                    <canvas id="fluxoChart"></canvas>
-                </div>
-
-            </section>
+        <div class="chart calender">
+            <div id="calendarioMenstrual"></div>
         </div>
+    </section>
+  </div>
 
-    </div>
+  <a href="dashboard.html" id="btnHome" title="Voltar à Home">
+    <i class="fas fa-home"></i>
+  </a>
 
-    <a href="dashboard.html" id="btnHome" title="Voltar à Home">
-        <i class="fas fa-home"></i>
-      </a>
-      
-    <script src="JS/menstruacao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+  <script type="module" src="JS/firebaseMenstruacao.js"></script>
+  <script type="module" src="JS/menstruacao.js"></script>
 </body>
 </html>

@@ -1723,3 +1723,157 @@ input[type="password"] {
 }
 
 /*fim da diagramação pagina MEDICAMENTOS*/
+
+
+/*inicio da diagramação pagina MENSTRUAÇÃO*/
+:root {
+  --bg-dark: #1f2937;
+  --bg-darker: #1e1f2f;
+  --bg-light: #2c2f3f;
+  --accent: #36e4b0;
+  --accent-hover: #2dd1a1;
+  --highlight: #880e4f;
+  --today-bg: #3c3f5a;
+  --text-light: #ffffff;
+}
+
+/* Layout geral */
+.chart {
+  display: flex;
+  flex-direction: row; /* Garantir que fique lado a lado */
+  flex-wrap: wrap;     /* Para mobile, pode empilhar */
+  gap: 20px;
+  height: auto;
+  background: var(--bg-dark);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(54, 228, 176, 0.1);
+  justify-content: space-between;
+}
+
+/* Gráfico e Calendário ocupam 50% cada em telas grandes */
+.grafico-container,
+.calender {
+  flex: 1 1 48%;
+  min-width: 320px;
+  height: 550px;
+  background: var(--bg-darker);
+  border-radius: 12px;
+  padding: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsivo: se a tela for menor que 768px, empilha */
+@media (max-width: 768px) {
+  .grafico-container,
+  .calender {
+    flex: 1 1 100%;
+    height: auto;
+  }
+}
+
+
+/* FullCalendar overrides */
+.fc {
+  background-color: var(--bg-darker);
+  color: var(--text-light);
+  border-radius: 10px;
+}
+
+/* Cabeçalho */
+.fc-toolbar-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-light);
+}
+
+.fc-button {
+  background-color: var(--accent);
+  border: none;
+  color: var(--bg-darker);
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.fc-button:hover,
+.fc-button:focus {
+  background-color: var(--accent-hover);
+  color: white;
+  transform: scale(1.05);
+  outline: none;
+}
+
+/* Dias da semana */
+.fc-col-header-cell-cushion {
+  color: var(--accent);
+  font-weight: bold;
+  padding: 6px 0;
+}
+
+/* Dias do mês */
+.fc-daygrid-day {
+  background-color: var(--bg-light);
+  border: 1px solid var(--bg-darker);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fc-daygrid-day:hover {
+  background-color: #394050;
+}
+
+/* Hoje */
+.fc-day-today {
+  background-color: var(--today-bg);
+  border: 1px solid var(--accent);
+}
+
+/* Eventos */
+.fc-event {
+  background-color: var(--accent);
+  color: var(--bg-darker);
+  border: none;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Scrollbar */
+.fc-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg-darker);
+}
+
+/* Animação */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Feedback visual ao clicar nos dias */
+.fc-daygrid-day.fc-day-selected {
+  background-color: var(--highlight) !important;
+  color: white;
+  position: relative;
+}
+
+.fc-daygrid-day.fc-day-selected::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+/*fim da diagramação pagina MENSTRUAÇÃO*/

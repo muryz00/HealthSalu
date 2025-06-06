@@ -1,4 +1,3 @@
-//menstruacao.js
 import { salvarRegistroFirestore, buscarRegistrosFirestore } from "./firebaseMenstruacao.js";
 
 const fluxoHistorico = [];
@@ -10,26 +9,59 @@ window.addEventListener("DOMContentLoaded", async () => {
   const registros = await buscarRegistrosFirestore();
   fluxoHistorico.push(...registros);
   gerarGraficoFluxo();
-  calcularPrevisoes();
-  atualizarCalendario();
+  calcularPrevisoes(); 
 });
+
 
 document.getElementById("cardBtn").addEventListener("click", salvarRegistroMenstruacao);
 
 function salvarRegistroMenstruacao() {
-  const fluxo = document.getElementById("fluxo").value;
-  const observacoes = document.getElementById("observacoes").value;
   const cpfPaciente = localStorage.getItem("cpfPaciente");
+  const observacoes = document.getElementById("observacoes").value;
+  const fluxoInput = document.getElementById("fluxo").value;
+  const dataInicioInput = document.getElementById("dataInicio").value;
+  const dataFimInput = document.getElementById("dataFim").value;
 
-  if (diasSelecionados.size === 0 || !fluxo || !cpfPaciente) {
-    alert("Selecione os dias da menstruação, o fluxo e certifique-se que o CPF está salvo.");
+  let dataInicio, dataFim, fluxo;
+
+  // ✅ Caso o usuário tenha usado os inputs de data
+  if (dataInicioInput && dataFimInput) {
+    dataInicio = dataInicioInput;
+    dataFim = dataFimInput;
+    fluxo = fluxoInput; // usa o select do HTML
+
+  } else if (diasSelecionados.size > 0) {
+    // ✅ Caso o usuário tenha selecionado datas no calendário
+    const dias = Array.from(diasSelecionados).sort();
+    dataInicio = dias[0];
+    dataFim = dias[dias.length - 1];
+
+    // 🔴 Prompt para selecionar o fluxo
+    fluxo = prompt("Informe o fluxo menstrual (leve, moderado ou intenso):")?.toLowerCase();
+
+    if (!["leve", "moderado", "intenso"].includes(fluxo)) {
+      alert("Fluxo inválido. Use: leve, moderado ou intenso.");
+      return;
+    }
+
+  } else {
+    alert("Preencha as datas ou selecione os dias no calendário.");
     return;
   }
 
-  const dias = Array.from(diasSelecionados).sort();
-  const dataInicio = dias[0];
-  const dataFim = dias[dias.length - 1];
-  const duracao = dias.length;
+  if (!cpfPaciente) {
+    alert("CPF do paciente não encontrado.");
+    return;
+  }
+
+  const inicio = new Date(dataInicio);
+  const fim = new Date(dataFim);
+  if (fim < inicio) {
+    alert("A data de fim deve ser após a data de início.");
+    return;
+  }
+
+  const duracao = Math.floor((fim - inicio) / (1000 * 60 * 60 * 24)) + 1;
 
   const registro = {
     data_inicio: dataInicio,
@@ -44,49 +76,26 @@ function salvarRegistroMenstruacao() {
   salvarRegistroFirestore(registro);
 
   diasSelecionados.clear();
+  document.getElementById("dataInicio").value = "";
+  document.getElementById("dataFim").value = "";
+  document.getElementById("observacoes").value = "";
+
   atualizarDatasSelecionadasNoCalendario();
   gerarGraficoFluxo();
   calcularPrevisoes();
   atualizarCalendario();
 }
 
+
 function toggleDataSelecionada(data) {
-  const jaSelecionado = diasSelecionados.has(data);
-  if (jaSelecionado) {
+  if (diasSelecionados.has(data)) {
     if (confirm("Deseja remover esta data da seleção?")) {
       diasSelecionados.delete(data);
-      atualizarDatasSelecionadasNoCalendario();
     }
-    return;
+  } else {
+    diasSelecionados.add(data);
   }
-
-  const fluxo = prompt("Qual o fluxo para este dia? (leve, moderado, intenso)");
-  if (!fluxo || !["leve", "moderado", "intenso"].includes(fluxo.toLowerCase())) {
-    alert("Fluxo inválido. Digite: leve, moderado ou intenso.");
-    return;
-  }
-
-  const cpfPaciente = localStorage.getItem("cpfPaciente");
-  if (!cpfPaciente) {
-    alert("CPF do paciente não encontrado.");
-    return;
-  }
-
-  const registro = {
-    data_inicio: data,
-    data_fim: data,
-    duracao: 1,
-    fluxo: fluxo.toLowerCase(),
-    observacoes: "",
-    cpf: cpfPaciente
-  };
-
-  fluxoHistorico.push(registro);
-  salvarRegistroFirestore(registro);
-
-  calcularPrevisoes();
-  gerarGraficoFluxo();
-  atualizarCalendario();
+  atualizarDatasSelecionadasNoCalendario();
 }
 
 function atualizarDatasSelecionadasNoCalendario() {
@@ -154,6 +163,8 @@ function calcularPrevisoes() {
   if (fluxoHistorico.length < 2) return;
 
   const ordenado = [...fluxoHistorico].sort((a, b) => new Date(a.data_inicio) - new Date(b.data_inicio));
+
+  // Calcula os intervalos entre ciclos
   const intervalos = ordenado.slice(1).map((curr, i) => {
     const anterior = new Date(ordenado[i].data_inicio);
     const atual = new Date(curr.data_inicio);
@@ -163,6 +174,7 @@ function calcularPrevisoes() {
   const mediaDuracaoCiclo = intervalos.reduce((acc, d) => acc + d, 0) / intervalos.length;
   const mediaMenstruacao = ordenado.reduce((acc, r) => acc + r.duracao, 0) / ordenado.length;
 
+  // Previsão próxima menstruação
   const ultimo = new Date(ordenado.at(-1).data_inicio);
   const proximaMenstruacao = new Date(ultimo);
   proximaMenstruacao.setDate(proximaMenstruacao.getDate() + Math.round(mediaDuracaoCiclo));
@@ -170,17 +182,21 @@ function calcularPrevisoes() {
   const fimProximaMenstruacao = new Date(proximaMenstruacao);
   fimProximaMenstruacao.setDate(fimProximaMenstruacao.getDate() + Math.round(mediaMenstruacao));
 
+  // Período fértil: ~14 dias antes da próxima menstruação, durando 6 dias
   const fertilInicio = new Date(proximaMenstruacao);
   fertilInicio.setDate(proximaMenstruacao.getDate() - 14);
+
   const fertilFim = new Date(fertilInicio);
   fertilFim.setDate(fertilInicio.getDate() + 5);
 
   atualizarCalendario(proximaMenstruacao, fimProximaMenstruacao, fertilInicio, fertilFim);
 }
 
+
 function atualizarCalendario(menstruacaoPrevista = null, fimMenstruacaoPrevista = null, fertilInicio = null, fertilFim = null) {
   const eventos = [];
 
+  // Menstruações anteriores
   fluxoHistorico.forEach(entry => {
     eventos.push({
       title: `Menstruação (${entry.fluxo})`,
@@ -190,30 +206,35 @@ function atualizarCalendario(menstruacaoPrevista = null, fimMenstruacaoPrevista 
     });
   });
 
+  // Período fértil (em azul claro)
   if (fertilInicio && fertilFim) {
     let atual = new Date(fertilInicio);
     while (atual <= fertilFim) {
       eventos.push({
         title: "Período fértil",
         start: atual.toISOString().split("T")[0],
+        allDay: true,
         color: "#03a9f4"
       });
       atual.setDate(atual.getDate() + 1);
     }
   }
 
+  // Próxima menstruação prevista (em roxo escuro)
   if (menstruacaoPrevista && fimMenstruacaoPrevista) {
     let atual = new Date(menstruacaoPrevista);
     while (atual <= fimMenstruacaoPrevista) {
       eventos.push({
         title: "Próxima Menstruação Prevista",
         start: atual.toISOString().split("T")[0],
+        allDay: true,
         color: "#880e4f"
       });
       atual.setDate(atual.getDate() + 1);
     }
   }
 
+  // Renderiza no calendário
   if (!calendar) {
     calendar = new FullCalendar.Calendar(document.getElementById("calendarioMenstrual"), {
       initialView: "dayGridMonth",

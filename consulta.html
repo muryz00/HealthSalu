@@ -1,69 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultas</title>
-    <link rel="stylesheet" href="CSS/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consultas</title>
+  <link rel="stylesheet" href="CSS/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body id="bdFuncionalidades">
-    <script src="JS/consulta.js"></script>
+  <div class="dashboardFuncionalidades">
+    <header class="headerFuncionalidades">
+      <h1>Consulta</h1>
+    </header>
 
-    <div class="dashboardFuncionalidades">
+    <section class="stats">
+      <div class="cardFuncionalidades">
+        <h2>Nome do Paciente</h2><br>
+        <input type="text" id="nome" placeholder="Digite seu nome completo" />
+      </div>
 
-        <header class="headerFuncionalidades">
-            <h1>Consulta</h1>
-        </header>
+      <div class="cardFuncionalidades">
+        <h2>Especialidade</h2><br>
+        <select class="tipo-funcionalidades" id="atendimento">
+          <option value="clinico">Clínico Geral</option>
+          <option value="cardiologia">Cardiologia</option>
+          <option value="dermatologia">Dermatologia</option>
+          <option value="ortopedia">Ortopedia</option>
+        </select>
+      </div>
 
-        <section class="stats">
+      <div class="cardFuncionalidades">
+        <h2>Data da Consulta</h2><br>
+        <input type="date" id="dataConsulta" />
+      </div>
 
-            <div class="cardFuncionalidades">
-                <h2>Nome</h2><br>
-                <input type="text" id="nome" placeholder="Digite seu nome">  
-                          
-            </div>
-
-            <div class="cardFuncionalidades">
-
-              <h2>Data de Nascimento</h2><br>
-              <input type="date" name="dataNascimentoimento" id="dataNascimentoimento">
-              
-          </div>
-
-        </section>    
-        <section class="stats">
-
-          <div class="cardFuncionalidades">
-            <h2>Especialidade</h2><br>
-            <select class="tipo-funcionalidades" id="atendimento">
-              <option value="clinico">Clínico Geral</option>
-              <option value="cardiologia">Cardiologia</option>
-              <option value="Dermatologia">Dermatologia</option>
-              <option value="Ortopedia">Ortopedia</option>
+      <div class="cardFuncionalidades">
+        <h2>Horário da Consulta</h2><br>
+        <select class="tipo-funcionalidades" id="horarioConsulta">
+            <option value="">Selecione um horário</option>
           </select>
+          
+    </section>
 
-        </div>
-
-        <div class="cardFuncionalidades">
-            <h2>Data da consulta</h2><br>
-            <input type="date" name="dataConsulta" id="dataConsulta">
-        </div>
-
-        </section>
-
-        <div class="cardFuncionalidades" id="cardBtn" onclick="agendarConsulta()">
-            <h1 style="margin-bottom: 10px;">Marcar Consulta</h1>
-        </div>
-
-        <a href="dashboard.html" id="btnHome" title="Voltar à Home">
-            <i class="fas fa-home"></i>
-          </a>
-        
+    <div class="cardFuncionalidades" id="cardBtn">
+      <h1 style="margin-bottom: 10px;">Marcar Consulta</h1>
     </div>
+
+    <div id="listaConsultas" class="containerPrescricoes"></div>
+
+    <a href="dashboard.html" id="btnHome" title="Voltar à Home">
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
+
+  <script type="module" src="JS/consulta.js"></script>
 </body>
 </html>

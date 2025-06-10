@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   carregarGraficoExercicio(cpfPaciente);
   carregarGraficoAlimentacao(cpfPaciente);
+  carregarGraficoFluxoMenstrual(cpfPaciente);
 });
-
 let caloriesChart        = null;
 let caloriesGainedChart  = null;
 
@@ -198,3 +198,79 @@ function gerarGraficoAlimentacao(labels, dados) {
     }
   });
 }
+
+let fluxoChart = null;
+
+async function carregarGraficoFluxoMenstrual(cpf) {
+  try {
+    const menstruacoesRef = collection(db, "menstruacoes");
+    const q = query(menstruacoesRef, where("cpf", "==", cpf));
+    const snapshot = await getDocs(q);
+
+    const contagemFluxo = {
+      leve: 0,
+      moderado: 0,
+      intenso: 0
+    };
+
+    snapshot.forEach(doc => {
+      const { fluxo } = doc.data();
+      if (["leve", "moderado", "intenso"].includes(fluxo)) {
+        contagemFluxo[fluxo]++;
+      }
+    });
+
+    const labels = ["Leve", "Moderado", "Intenso"];
+    const dados = [
+      contagemFluxo.leve,
+      contagemFluxo.moderado,
+      contagemFluxo.intenso
+    ];
+
+    gerarGraficoFluxo(labels, dados);
+
+  } catch (error) {
+    console.error("Erro ao carregar gráfico de fluxo menstrual:", error);
+  }
+}
+
+function gerarGraficoFluxo(labels, dados) {
+  const ctx = document.getElementById("fluxoChart").getContext("2d");
+  if (fluxoChart) fluxoChart.destroy();
+
+  fluxoChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: dados,
+        backgroundColor: ["#81d4fa", "#ffb74d", "#e57373"],
+        borderColor: "#ffffff",
+        borderWidth: 2,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      cutout: '65%',
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "white",
+            boxWidth: 12,
+            padding: 15
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.label}: ${ctx.raw} ocorrência(s)`
+          }
+        }
+      }
+    }
+  });
+}
+
+

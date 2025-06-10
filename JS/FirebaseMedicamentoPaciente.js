@@ -21,10 +21,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Função para carregar prescrições ao abrir a página
 async function carregarPrescricoes() {
   const container = document.getElementById('containerPrescricoes');
-  container.innerHTML = ''; // Limpa o container antes de adicionar os cards
+  container.innerHTML = '';
 
   try {
       const querySnapshot = await getDocs(collection(db, "prescricoes"));
@@ -53,5 +52,4 @@ async function carregarPrescricoes() {
   }
 }
 
-// Executa ao carregar a página
 window.addEventListener('DOMContentLoaded', carregarPrescricoes);

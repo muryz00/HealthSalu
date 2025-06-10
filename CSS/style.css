@@ -330,7 +330,7 @@
 
 .dashboard1 {
     display: grid;
-    grid-template-rows: 35vh;
+    grid-template-rows: 40vh;
     gap: 2%;
 }
 
@@ -358,7 +358,7 @@
 .dashboard5 {
     display: grid;
     grid-template-columns: 70fr 30fr;
-    grid-template-rows: 30vh;
+    grid-template-rows: 35vh;
     gap: 2%;
 }
 
@@ -1161,6 +1161,7 @@ input[type="password"] {
 .cardFuncionalidades input[type="text"],
 .cardFuncionalidades input[type="date"],
 .cardFuncionalidades input[type="datetime-local"],
+.cardFuncionalidades input[type="time"],
 .cardFuncionalidades input[type="file"],
 .cardFuncionalidades textarea{
     background-color: #1f2937; /* bg-gray-800 */
@@ -1874,6 +1875,16 @@ input[type="password"] {
   font-size: 1rem;
   color: #fff;
   font-weight: bold;
+}
+
+.tamanho {
+  width: 100% !important;
+  max-width: 300px;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: block;
+  padding: 10px;
 }
 
 /*fim da diagramação pagina MENSTRUAÇÃO*/

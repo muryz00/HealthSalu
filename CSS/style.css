@@ -351,7 +351,7 @@
 .dashboard4 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 30vh;
+    grid-template-rows: 35vh;
     gap: 2%;
 }
 
@@ -1736,20 +1736,6 @@ input[type="password"] {
   --highlight: #880e4f;
   --today-bg: #3c3f5a;
   --text-light: #ffffff;
-}
-
-/* Layout geral */
-.chart {
-  display: flex;
-  flex-direction: row; /* Garantir que fique lado a lado */
-  flex-wrap: wrap;     /* Para mobile, pode empilhar */
-  gap: 20px;
-  height: auto;
-  background: var(--bg-dark);
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(54, 228, 176, 0.1);
-  justify-content: space-between;
 }
 
 /* Gráfico e Calendário ocupam 50% cada em telas grandes */

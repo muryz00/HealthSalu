@@ -114,12 +114,15 @@ async function agendarConsulta() {
     document.getElementById("dataConsulta").value = "";
     document.getElementById("horarioConsulta").innerHTML = '<option value="">Selecione um horário</option>';
     carregarConsulta();
+    carregarHorariosDisponiveis(); // Atualiza horários após novo agendamento
   } catch (erro) {
     console.error("Erro ao salvar consulta:", erro);
     alert("Erro ao salvar a consulta. Tente novamente mais tarde.");
   }
 }
 document.getElementById("cardBtn").addEventListener("click", agendarConsulta);
+
+// ... (restante do código permanece o mesmo acima da função carregarConsulta)
 
 async function carregarConsulta() {
   const container = document.getElementById('listaConsultas');
@@ -165,9 +168,17 @@ async function carregarConsulta() {
       btn.addEventListener('click', async (e) => {
         const card = e.target.closest('.cardPrescricao');
         const id = card.getAttribute('data-id');
+        const dataConsulta = card.querySelector('p:nth-of-type(2)').textContent.split(': ')[1];
+
         await deleteDoc(doc(db, "consultas", id));
         alert("Consulta desmarcada com sucesso!");
+
         carregarConsulta();
+
+        // Recarrega horários disponíveis se a data da consulta excluída for a mesma selecionada
+        if (document.getElementById("dataConsulta").value === dataConsulta) {
+          carregarHorariosDisponiveis();
+        }
       });
     });
 
@@ -175,6 +186,8 @@ async function carregarConsulta() {
       btn.addEventListener('click', async (e) => {
         const card = e.target.closest('.cardPrescricao');
         const id = card.getAttribute('data-id');
+        const dataAntiga = card.querySelector('p:nth-of-type(2)').textContent.split(': ')[1];
+
         const novaData = prompt("Nova data (YYYY-MM-DD):");
         const novoHorario = prompt("Novo horário (HH:mm):");
 
@@ -187,6 +200,12 @@ async function carregarConsulta() {
 
         alert("Consulta remarcada com sucesso!");
         carregarConsulta();
+
+        // Se a data atual no input é igual à data nova ou à antiga, atualizar horários
+        const dataAtualInput = document.getElementById("dataConsulta").value;
+        if (dataAtualInput === novaData || dataAtualInput === dataAntiga) {
+          carregarHorariosDisponiveis();
+        }
       });
     });
 

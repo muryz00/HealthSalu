@@ -15,6 +15,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-analytics.js";
 
+// Configuração Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
   authDomain: "api-cadastro-5ab06.firebaseapp.com",
@@ -31,33 +32,34 @@ getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+// Buscar dados do usuário autenticado
 export async function buscarDadosUsuario() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, async (user) => {
       if (!user) return reject(new Error("Usuário não autenticado."));
 
-      // ⚠️ Recupera CPF do localStorage
-      const cpfSalvo = localStorage.getItem("cpfPaciente");
+      const tipo = localStorage.getItem("tipoUsuario"); // 'medico' ou 'paciente'
+      const identificador = tipo === "medico"
+        ? localStorage.getItem("crmMedico")
+        : localStorage.getItem("cpfPaciente");
 
-      if (!cpfSalvo) return reject(new Error("CPF do usuário não encontrado."));
+      if (!tipo || !identificador) {
+        return reject(new Error("Dados de autenticação incompletos."));
+      }
 
-      const colecoes = ['pacientes', 'medicos'];
-      let dados = null;
+      const colecao = tipo === "medico" ? "medicos" : "pacientes";
+      const campo = tipo === "medico" ? "crm" : "cpf";
 
       try {
-        for (const col of colecoes) {
-          const q = query(collection(db, col), where("cpf", "==", cpfSalvo));
-          const querySnapshot = await getDocs(q);
+        const q = query(collection(db, colecao), where(campo, "==", identificador));
+        const querySnapshot = await getDocs(q);
 
-          if (!querySnapshot.empty) {
-            const docSnap = querySnapshot.docs[0];
-            dados = docSnap.data();
-            dados.tipo = col === 'medicos' ? 'medico' : 'paciente';
-            break;
-          }
+        if (querySnapshot.empty) {
+          return reject(new Error("Usuário não encontrado no banco."));
         }
 
-        if (!dados) return reject(new Error("Usuário não encontrado no banco."));
+        const docSnap = querySnapshot.docs[0];
+        const dados = docSnap.data();
 
         return resolve({
           nome: dados.nome || "Sem nome",
@@ -65,8 +67,9 @@ export async function buscarDadosUsuario() {
           telefone: dados.telefone || null,
           idade: dados.idade || null,
           cpf: dados.cpf || null,
+          crm: dados.crm || null,
           dataNascimento: dados.dataNascimento || null,
-          tipo: dados.tipo || "paciente"
+          tipo
         });
 
       } catch (erro) {
@@ -77,7 +80,7 @@ export async function buscarDadosUsuario() {
   });
 }
 
-
+// Redefinir senha
 export async function redefinirSenha(novaSenha) {
   const user = auth.currentUser;
 
@@ -91,6 +94,7 @@ export async function redefinirSenha(novaSenha) {
   }
 }
 
+// Logout
 export async function logout() {
   try {
     await signOut(auth);
@@ -99,3 +103,4 @@ export async function logout() {
     throw new Error(error.message || "Erro ao sair.");
   }
 }
+  

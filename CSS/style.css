@@ -305,9 +305,6 @@
 
 
 /* Inicio DASHBOARD */
-/* ------------------------- */
-/* 🌙 Layout Geral           */
-/* ------------------------- */
 #bdIndex {
     display: flex;
     min-height: 100vh;
@@ -319,9 +316,8 @@
     width: 100%;
 }
 
-/* ------------------------- */
-/* 📊 Layout dos Dashboards  */
-/* ------------------------- */
+/* Layout dos Dashboards  */
+
 .dashboard {
     gap: 2%;
     padding: 20px;
@@ -376,9 +372,7 @@
     gap: 2%;
 }
 
-/* ------------------------- */
-/* 🔗 Links no Dashboard     */
-/* ------------------------- */
+/*  Links no Dashboard     */
 .dashboard1 a,
 .dashboard2 a,
 .dashboard3 a,
@@ -393,9 +387,6 @@
     display: block;
 }
 
-/* ------------------------- */
-/* 💳 Card Geral             */
-/* ------------------------- */
 .card {
     background: #1f2937;
     border-radius: 25px;
@@ -417,27 +408,18 @@
     transform: translateY(-4px);
 }
 
-/* ------------------------- */
-/* 🖼️ Imagens nos Cards      */
-/* ------------------------- */
 .card img {
     height: 110px;
     width: 110px;
     object-fit: contain;
 }
 
-/* ------------------------- */
-/* 🏷️ Títulos dos Cards      */
-/* ------------------------- */
 .card h3 {
     margin-bottom: 15px;
     color: #36e4b0;
     font-size: 1.5vw;
 }
 
-/* ------------------------- */
-/* 📈 Canvas (Gráficos)      */
-/* ------------------------- */
 .card canvas {
     width: 100% !important;
     height: auto !important;
@@ -446,20 +428,142 @@
     margin: 0 auto;
 }
 
-/* ------------------------- */
-/* 🎯 Cards com Gráficos     */
-/* ------------------------- */
 .cardGrafico {
     padding: 15px;
     overflow: hidden;
     justify-content: space-between;
 }
 
-
 /* Fim Index */
 
+/*inicio DASHBOARD MEDICO*/
+.bdMedico {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0d1117, #1f2937);
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  overflow-x: hidden;
+}
+
+/* Container Principal */
+.dashboard-container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 30px;
+}
+
+/* Cabeçalho */
+.dashboard-header {
+  text-align: left;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+}
+
+.dashboard-header h1 {
+  font-size: 2.8rem;
+  color: #36e4b0;
+  margin-bottom: 8px;
+}
+
+.dashboard-header p {
+  font-size: 1.1rem;
+  color: #9ca3af;
+}
+
+/* Grid principal de cards */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* CARD */
+.card {
+  background: #1e2533;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(54, 228, 176, 0.05);
+  transition: 0.3s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid transparent;
+}
+
+.card:hover {
+  border: 1px solid #36e4b0;
+  background: #263142;
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px rgba(54, 228, 176, 0.12);
+}
+
+/* Ícones */
+.card-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  background: rgba(54, 228, 176, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-icon img {
+  width: 50px;
+  height: 50px;
+  filter: brightness(1.2) drop-shadow(0 0 2px #36e4b0);
+}
+
+/* Título e texto */
+.card h2 {
+  font-size: 2rem;
+  color: #36e4b0;
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 1.2rem;
+  color: #d1d5db;
+  line-height: 1.4;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .card-icon img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/*fim DASHBOARD MEDICO*/
+
 /*inicio da diagramação LOGIN e CADASTRO*/
-/* Correções globais para permitir rolagem */
 html, body {
     margin: 0;
     padding: 0;
@@ -525,6 +629,34 @@ html, body {
     border-radius: 15px;
     color: white;
 }
+
+.select {
+  margin-top: 5%;
+  background-color: #464646;
+  border: none;
+  height: 40px;
+  outline: none;
+  border-radius: 15px;
+  color: white;
+  padding: 0 40px 0 15px; /* espaço interno, com padding right para a seta */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: inherit;
+  position: relative;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 14px;
+}
+
+/* Placeholder no select não é suportado diretamente, mas o option com disabled selected funciona como placeholder */
+.select option[disabled][selected] {
+  color: rgba(255,255,255,0.4);
+}
+
 
 #imgLogin {
     display: flex;

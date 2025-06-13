@@ -1,8 +1,8 @@
-// firebaseLogin.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
+// Configuração Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
   authDomain: "api-cadastro-5ab06.firebaseapp.com",
@@ -17,60 +17,83 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Traduz mensagens de erro do Firebase
+function traduzirErroFirebase(erro) {
+  let codigo = erro.code || extrairCodigoErro(erro.message);
+
+  if (codigo === "auth/invalid-credential") {
+    codigo = "auth/wrong-password";
+  }
+
+  const erros = {
+    "auth/user-not-found": "Usuário não encontrado. Verifique seu CPF/CRM.",
+    "auth/wrong-password": "Senha incorreta. Tente novamente.",
+    "auth/user-disabled": "Essa conta foi desativada.",
+    "auth/too-many-requests": "Muitas tentativas. Tente novamente mais tarde.",
+    "auth/network-request-failed": "Erro de conexão. Verifique sua internet.",
+  };
+
+  return erros[codigo] || "Ocorreu um erro inesperado. Tente novamente.";
+}
+
+function extrairCodigoErro(mensagem) {
+  const match = mensagem.match(/\(auth\/([^)]+)\)/);
+  return match ? `auth/${match[1]}` : null;
+}
+
 document.getElementById("formLogin").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const identificador = document.getElementById("email").value.trim();
-  const senha        = document.getElementById("senha").value.trim();
-  const tipo         = document.getElementById("tipo").value; // "paciente" ou "medico"
+  const senha = document.getElementById("senha").value.trim();
+  const tipo = document.getElementById("tipo").value;
 
-  // Determina a coleção e o campo para pesquisa (CPF para paciente, CRM para médico)
+  if (!identificador || !senha || !tipo) {
+    alert("Preencha todos os campos corretamente.");
+    return;
+  }
+
   const colecao = tipo === "paciente" ? "pacientes" : "medicos";
-  const campo   = tipo === "paciente" ? "cpf"       : "crm";
+  const campo = tipo === "paciente" ? "cpf" : "crm";
 
   try {
-    // 1) Faz uma query para ver se o CPF/CRM existe na coleção certa
+    // Verifica se CPF/CRM existe
     const q = query(collection(db, colecao), where(campo, "==", identificador));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      alert(`${campo.toUpperCase()} não encontrado.`);
+      alert(`${campo.toUpperCase()} não encontrado. Verifique suas informações.`);
       return;
     }
 
-    // 2) Se encontrou, extrai o e-mail do documento
-    const docData = querySnapshot.docs[0].data();
-    const email   = docData.email;
+    const userData = querySnapshot.docs[0].data();
+    const email = userData.email;
+
     if (!email) {
       alert("E-mail não cadastrado para este usuário.");
       return;
     }
 
-    // 3) Tenta fazer login com esse e-mail + senha
+    // Autentica com Firebase Auth
     const userCredential = await signInWithEmailAndPassword(auth, email, senha);
     const user = userCredential.user;
 
-    // 4) Se deu certo, guardamos no localStorage:
-    //    - o tipo ("paciente" ou "medico")
-    //    - o identificador (CPF ou CRM) para uso posterior nos dashboards
-    localStorage.setItem("tipo", tipo);
-    if (tipo === "paciente") {
-      localStorage.setItem("cpfPaciente", identificador);
-    } else {
+    // Armazena no localStorage
+    localStorage.setItem("tipoUsuario", tipo);
+    if (tipo === "medico") {
       localStorage.setItem("crmMedico", identificador);
+    } else {
+      localStorage.setItem("cpfPaciente", identificador);
     }
 
     alert("Login realizado com sucesso!");
 
-    // 5) Redireciona para a página correta
-    if (tipo === "paciente") {
-      window.location.href = "dashboard.html";
-    } else {
-      window.location.href = "dashboardMedico.html";
-    }
+    // Redireciona para o dashboard
+    window.location.href = tipo === "paciente" ? "dashboard.html" : "dashboardMedico.html";
 
   } catch (error) {
-    alert("Erro ao fazer login: " + error.message);
     console.error("Erro Firebase:", error);
+    const mensagemAmigavel = traduzirErroFirebase(error);
+    alert("Erro ao fazer login: " + mensagemAmigavel);
   }
 });

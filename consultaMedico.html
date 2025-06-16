@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultas</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <title>Consultas (Médico)</title> <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,84 +11,67 @@
 </head>
 <body id="bdFuncionalidades">
 
-        <div class="dashboardFuncionalidades">
+    <div class="dashboardFuncionalidades">
 
-            <header class="headerFuncionalidades">
-                <h1>Consulta</h1>
-            </header>
-    
-            <section class="stats">
-    
-                <div class="cardFuncionalidades">
-                    <h2>Nome</h2><br>
-                    <input type="text" id="nome" placeholder="Digite seu nome">  
-                              
-                </div>
-    
-                <div class="cardFuncionalidades">
-    
-                  <h2>Data de Nascimento</h2><br>
-                  <input type="date" name="dataNascimentoimento" id="dataNascimentoimento">
-                  
-              </div>
-    
-            </section>    
-            <section class="stats">
-    
-              <div class="cardFuncionalidades">
-                <h2>Especialidade</h2><br>
-                <select class="tipo-funcionalidades" id="atendimento">
-                  <option value="clinico">Clínico Geral</option>
-                  <option value="cardiologia">Cardiologia</option>
-                  <option value="Dermatologia">Dermatologia</option>
-                  <option value="Ortopedia">Ortopedia</option>
-              </select>
-    
-            </div>
-    
+        <header class="headerFuncionalidades">
+            <h1>Agendar Consulta (Médico)</h1> </header>
+
+        <section class="stats">
+
             <div class="cardFuncionalidades">
-                <h2>Data da consulta</h2><br>
-                <input type="date" name="dataConsulta" id="dataConsulta">
+                <h2>Nome do Paciente</h2><br>
+                <input type="text" id="nomePacienteAgendamento" placeholder="Digite o nome completo do paciente"> 
             </div>
-    
-            </section>
-    
-            <div class="cardFuncionalidades" id="cardBtn" onclick="agendarConsulta()">
-                <h1 style="margin-bottom: 10px;">Marcar Consulta</h1>
-            </div><br><br>
 
-            <header class="headerFuncionalidades">
-                <h1>Consultas Agendadas</h1>
-            </header>
-
-        <div class="dashboard7">
-
-            <input type="text" class="inputSearch" placeholder="Pesquisar por nome ou CPF...">
-
-            <div class="cardFuncionalidades" id="cardBtn"">
-                <h1 style="font-size: 130%;">Pesquisar</h1>
+            <div class="cardFuncionalidades">
+                <h2>CPF do Paciente</h2><br>
+                <input type="text" id="cpfPacienteAgendamento" placeholder="Digite o CPF do paciente"> 
             </div>
-        </div>
+
+            <div class="cardFuncionalidades">
+                <h2>Especialidade</h2><br>
+                <select class="tipo-funcionalidades" id="especialidadeMedico"> 
+                    <option value="clinico">Clínico Geral</option>
+                    <option value="cardiologia">Cardiologia</option>
+                    <option value="dermatologia">Dermatologia</option>
+                    <option value="ortopedia">Ortopedia</option>
+                </select>
+            </div>
+
+            <div class="cardFuncionalidades">
+                <h2>Data da Consulta</h2><br>
+                <input type="date" id="dataConsultaAgendamento"> 
+            </div>
+            
+            <div class="cardFuncionalidades">
+                <h2>Horário da Consulta</h2><br>
+                <select class="tipo-funcionalidades" id="horarioConsultaAgendamento"> 
+                    <option value="">Selecione uma data primeiro</option>
+                </select>
+            </div>
+
+        </section>
+
+        <div class="cardFuncionalidades" id="cardBtn">
+            <h1 style="margin-bottom: 10px;">Marcar Consulta</h1>
+          </div>
         
-            <table id="tableExercicio">
-                <thead>
-                    <tr id="thExercicio">
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Data de Nascimento</th>
-                        <th>Telefone</th>
-                        <th>Horário</th>
-                        <th>Especialidade</th>
-                    </tr>
-                </thead>
-            </table>
+        <br><br>
 
-        </div>
+        <header class="headerFuncionalidades">
+            <h1>Minhas Consultas Agendadas</h1> 
+        </header>
 
-        <a href="dashboardMedico.html" id="btnHome" title="Voltar à Home">
-            <i class="fas fa-home"></i>
-          </a>
+        <div id="containerConsultasMedico"></div>
 
-<script src="JS/script.js"></script>
+    </div>
+
+</div>
+
+    <a href="dashboardMedico.html" id="btnHome" title="Voltar à Home">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script type="module" src="JS/firebaseConsultaMedico.js"></script> 
 </body>
 </html>

@@ -92,34 +92,50 @@ async function agendarConsulta() {
 
   const dataHoje = new Date();
   const dataSelecionada = new Date(`${dataConsulta}T00:00`);
-
   if (dataSelecionada < dataHoje.setHours(0, 0, 0, 0)) {
     alert("A data da consulta não pode ser anterior a hoje.");
     return;
   }
 
   try {
+    // 🔍 Buscar um médico pela especialidade
+    const medicosRef = collection(db, "medicos");
+    const q = query(medicosRef, where("especialidade", "==", especialidade));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      alert("Nenhum médico disponível para essa especialidade.");
+      return;
+    }
+
+    // Selecionar o primeiro médico disponível (você pode depois randomizar ou usar outro critério)
+    const medicoData = querySnapshot.docs[0].data();
+    const nomeMedico = medicoData.nome;
+
     await addDoc(collection(db, "consultas"), {
       cpf,
       nome,
       especialidade,
+      nomeMedico,
       dataConsulta,
       horarioConsulta,
       timestamp: new Date()
     });
 
-    alert("Consulta marcada com sucesso!");
+    alert(`Consulta marcada com o(a) Dr(a). ${nomeMedico} com sucesso!`);
     document.getElementById("nome").value = "";
     document.getElementById("atendimento").selectedIndex = 0;
     document.getElementById("dataConsulta").value = "";
     document.getElementById("horarioConsulta").innerHTML = '<option value="">Selecione um horário</option>';
     carregarConsulta();
-    carregarHorariosDisponiveis(); // Atualiza horários após novo agendamento
+    carregarHorariosDisponiveis();
+
   } catch (erro) {
     console.error("Erro ao salvar consulta:", erro);
     alert("Erro ao salvar a consulta. Tente novamente mais tarde.");
   }
 }
+
 document.getElementById("cardBtn").addEventListener("click", agendarConsulta);
 
 // ... (restante do código permanece o mesmo acima da função carregarConsulta)
@@ -149,17 +165,17 @@ async function carregarConsulta() {
       const id = docSnap.id;
 
       const cardHTML = `
-        <div class="cardPrescricao" data-id="${id}">
-          <h2><i class="fas fa-calendar-check"></i> Nome do Paciente: <span>${data.nome}</span></h2>
-          <p><strong>CPF:</strong> ${data.cpf}</p>
-          <p><strong>Data da Consulta:</strong> ${data.dataConsulta}</p>
-          <p><strong>Horário da Consulta:</strong> ${data.horarioConsulta}</p>
-          <p><strong>Especialidade:</strong> ${data.especialidade}</p>
-          <button class="btn-remarcar">Remarcar</button>
-          <button class="btn-desmarcar">Desmarcar</button>
-        </div>
-      `;
-
+      <div class="cardPrescricao" data-id="${id}">
+        <h2><i class="fas fa-calendar-check"></i> Nome do Paciente: <span>${data.nome}</span></h2>
+        <p><strong>CPF:</strong> ${data.cpf}</p>
+        <p><strong>Data da Consulta:</strong> ${data.dataConsulta}</p>
+        <p><strong>Horário da Consulta:</strong> ${data.horarioConsulta}</p>
+        <p><strong>Especialidade:</strong> ${data.especialidade}</p>
+        <p><strong>Médico Responsável:</strong> ${data.nomeMedico || "Não informado"}</p>
+        <button class="btn-remarcar">Remarcar</button>
+        <button class="btn-desmarcar">Desmarcar</button>
+      </div>
+    `;    
       container.insertAdjacentHTML('beforeend', cardHTML);
     });
 

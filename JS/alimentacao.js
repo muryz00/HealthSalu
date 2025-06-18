@@ -7,6 +7,7 @@ export let historicoIMC2 = [];
 let caloriesgainedChart = null;
 let imcAlimentoChart = null;
 
+
 const apiKey = "ZKPY7YXFvogSwg71sUB2nzpwvMt5Ij5JcutPrNao";
 
 // Tradução

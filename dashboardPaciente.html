@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Saúde</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body class="bdMedico">
+  <div class="dashboard">
+
+    <div id="headerPaciente"></div>
+
+    <div class="dashboard4">
+      <div class="card">
+        <canvas id="caloriesgainedChart"></canvas>
+      </div>
+
+      <div class="card">
+        <canvas id="caloriesChart"></canvas>
+      </div>
+
+      <div class="card">
+        <canvas id="imcChart2"></canvas>
+      </div>
+    </div>
+
+    <div class="dashboard3">
+      <div class="card">
+        <div class="table-container">
+          <table id="tableAlimento">
+            <tr id="thAlimento">
+              <th>Alimento</th>
+              <th>QTD de Alimentos</th>
+              <th>Calorías</th>
+              <th>Gordura</th>
+              <th>Proteína</th>
+              <th>Carboídrato</th>
+              <th>Descrição de IMC</th>
+              <th>Data da Alimentação</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table id="tableExercicio">
+            <tr id="thExercicio">
+              <th>Exercicio</th>
+              <th>Duração<br>(em Minutos)</th>
+              <th>QTD de calorías perdida</th>
+              <th>Descrição de IMC</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <a href="pacientes.html" id="btnHome" title="Voltar à Home">
+        <i class="fas fa-home"></i>
+      </a>
+
+    <script type="module" src="JS/firebaseDashboardPaciente.js"></script>
+  </div>
+</body>
+</html>

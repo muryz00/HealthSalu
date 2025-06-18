@@ -9,9 +9,14 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-// ==========================
-// 1) Configuração do Firebase
-// ==========================
+// alimentacao.js ou FirebaseDashboard.js
+export { gerarGraficoCalorias2, gerarGraficoIMC2, alimentoHistorico, historicoIMC2 };
+
+let alimentoAtual = null;
+export let alimentoHistorico = [];
+export let historicoIMC2 = [];
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDDcP6Iji3mIl5zmBWC95DwmXdWOcPXx68",
   authDomain: "api-cadastro-5ab06.firebaseapp.com",
@@ -25,9 +30,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-// ==========================
-// 2) Ao carregar a página, pega o CPF diretamente do localStorage
-// ==========================
 document.addEventListener("DOMContentLoaded", () => {
   const cpfPaciente = localStorage.getItem("cpfPaciente");
   if (!cpfPaciente) {
@@ -44,24 +46,19 @@ document.addEventListener("DOMContentLoaded", () => {
 let caloriesChart        = null;
 let caloriesGainedChart  = null;
 
-// ==========================
-// 3) Função para carregar Gráfico de Exercícios
-// ==========================
 async function carregarGraficoExercicio(cpf) {
   try {
-    // 3.1) Faz a query na coleção "exercicios", filtrando por "cpfPaciente"
     const exerciciosRef = collection(db, "exercicios");
     const qExerc = query(exerciciosRef, where("cpfPaciente", "==", cpf));
     const snapshotExerc = await getDocs(qExerc);
 
-    // 3.2) Agrupa calorias por tipo de exercício
     const dadosPorTipo = {};
     snapshotExerc.forEach((doc) => {
       const exerc = doc.data();
-      const tipo      = exerc.tipo;                          // nome do tipo (por ex: "corrida")
-      const calorias  = Number(exerc.calorias) || 0;         // converte para Number
+      const tipo      = exerc.tipo;                          
+      const calorias  = Number(exerc.calorias) || 0;        
 
-      if (!tipo) return;   // Se não tiver campo "tipo", pula esse documento
+      if (!tipo) return;   
 
       if (dadosPorTipo[tipo]) {
         dadosPorTipo[tipo] += calorias;
@@ -70,9 +67,8 @@ async function carregarGraficoExercicio(cpf) {
       }
     });
 
-    // 3.3) Extrai labels e valores para passar ao Chart.js
-    const labels = Object.keys(dadosPorTipo);              // ex: ["corrida", "natação"]
-    const dados  = Object.values(dadosPorTipo);             // ex: [300, 120]
+    const labels = Object.keys(dadosPorTipo);            
+    const dados  = Object.values(dadosPorTipo);        
 
     gerarGraficoExercicios(labels, dados);
   } catch (error) {
@@ -81,7 +77,6 @@ async function carregarGraficoExercicio(cpf) {
 }
 
 function gerarGraficoExercicios(labels, dados) {
-  // 3.4) Gera o gráfico de barras em cima de <canvas id="caloriesChart">
   const ctx = document.getElementById("caloriesChart").getContext("2d");
   if (caloriesChart) {
     caloriesChart.destroy();
@@ -121,25 +116,20 @@ function gerarGraficoExercicios(labels, dados) {
   });
 }
 
-// ==========================
-// 4) Função para carregar Gráfico de Alimentação
-// ==========================
 async function carregarGraficoAlimentacao(cpf) {
   try {
-    // 4.1) Faz a query na coleção "alimentacao", filtrando por "cpfPaciente"
     const alimentacaoRef = collection(db, "alimentacao");
     const qAlim = query(alimentacaoRef, where("cpfPaciente", "==", cpf));
     const snapshotAlim = await getDocs(qAlim);
 
-    // 4.2) Agrupa calorias por “nome do alimento”
     const dadosPorAlimento = {};
     snapshotAlim.forEach((doc) => {
       const dado = doc.data();
 
-      const alimento = dado.nomeAlimento;           // <— ajuste conforme seu Firestore
+      const alimento = dado.nomeAlimento;         
       const calorias = Number(dado.calorias) || 0;
 
-      if (!alimento) return;  // pula se tiver undefined ou string vazia
+      if (!alimento) return; 
 
       if (dadosPorAlimento[alimento]) {
         dadosPorAlimento[alimento] += calorias;
@@ -148,7 +138,6 @@ async function carregarGraficoAlimentacao(cpf) {
       }
     });
 
-    // 4.3) Extrai arrays de labels e dados
     const labels = Object.keys(dadosPorAlimento);
     const dados  = Object.values(dadosPorAlimento);
 
@@ -159,7 +148,6 @@ async function carregarGraficoAlimentacao(cpf) {
 }
 
 function gerarGraficoAlimentacao(labels, dados) {
-  // 4.4) Gera o gráfico de barras em cima de <canvas id="caloriesgainedChart">
   const ctx = document.getElementById("caloriesgainedChart").getContext("2d");
   if (caloriesGainedChart) {
     caloriesGainedChart.destroy();
@@ -272,5 +260,7 @@ function gerarGraficoFluxo(labels, dados) {
     }
   });
 }
+
+
 
 

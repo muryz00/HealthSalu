@@ -164,6 +164,7 @@ document.getElementById("formLogin").addEventListener("submit", async function(e
     const collectionName = tipo === 'paciente' ? 'pacientes' : 'medicos';
 
     const userData = {
+      uid: user.uid, // Adiciona o UID aqui
       email,
       nome,
       cpf,

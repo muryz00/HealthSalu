@@ -9,12 +9,14 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-// alimentacao.js ou FirebaseDashboard.js
-export { gerarGraficoCalorias2, gerarGraficoIMC2, alimentoHistorico, historicoIMC2 };
-
-let alimentoAtual = null;
 export let alimentoHistorico = [];
 export let historicoIMC2 = [];
+export function gerarGraficoCalorias2() {
+  // função
+}
+export function gerarGraficoIMC2() {
+  // função
+}
 
 
 const firebaseConfig = {

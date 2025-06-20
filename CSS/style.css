@@ -484,6 +484,35 @@
   color: #9ca3af;
 }
 
+#dashboard-header {
+  display: flex;
+  align-items: center;
+  margin: 10px auto;
+  gap: 25px;
+}
+
+#dashboard-header i {
+  font-size: 3.5rem;
+  color: #36e4b0;
+}
+
+.dados-paciente-texto h1 {
+  font-size: 2rem;
+  color: #36e4b0;
+  margin-bottom: 10px;
+}
+
+.dados-paciente-texto p {
+  font-size: 1rem;
+  color: #e5e7eb;
+  margin: 4px 0;
+}
+
+.dados-paciente-texto strong {
+  color: #ffffff;
+}
+
+
 /* Grid principal de cards */
 .dashboard-grid {
   display: grid;

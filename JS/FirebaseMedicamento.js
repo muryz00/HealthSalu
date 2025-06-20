@@ -75,7 +75,7 @@ async function salvarPrescricao() {
     intervaloHoras: document.getElementById("intervaloHoras").value,
     dataPrescricao: Timestamp.now(),
     medicoId: medico.uid,
-    nomeMedico: nomeMedico // ← nome preenchido automaticamente
+    nomeMedico: nomeMedico
   };
 
   try {

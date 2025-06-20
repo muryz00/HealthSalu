@@ -73,27 +73,25 @@ async function buscarPacientes() {
         </div>
       `;
     }).join("");
-  
+      
     container.addEventListener("click", (event) => {
       const card = event.target.closest(".cardPrescricao");
       if (card) {
         const cpf = card.dataset.cpf;
         const nome = card.dataset.nome;
-    
+
         localStorage.setItem("cpfPaciente", cpf);
         localStorage.setItem("nomePaciente", nome);
-    
+
         console.log("CPF salvo:", cpf);
         console.log("Nome salvo:", nome);
         alert(`Paciente selecionado:\nNome: ${nome}\nCPF: ${cpf}`);
         
-        setTimeout(() => {
-          window.location.href = "dashboardPaciente.html";
-        }, 500);
-        
+        // Redireciona apenas uma vez
         window.location.href = "dashboardPaciente.html";
       }
     });
+
 
   } catch (erro) {
     console.error("Erro ao buscar pacientes:", erro);

@@ -17,8 +17,8 @@ document.getElementById('btnPerfil').addEventListener('click', async () => {
             <div>
               <div class="stats">
                 <div class="cardFuncionalidades">
-                    <h1 class="perfil-nome">${usuario.nome}</h1>
-                    <p class="perfil-descricao">${usuario.tipo === 'medico' ? 'Médico' : 'Paciente'} no Sistema de Saúde<br>Health Salu</p>
+                  <h1 class="perfil-nome">${usuario.nome}</h1>
+                  <p class="perfil-descricao">${usuario.tipo === 'medico' ? 'Médico' : 'Paciente'} no Sistema de Saúde<br>Health Salu</p>
                 </div>
                 <div class="cardFuncionalidades">
                   <h2>Informações de Contato</h2>
@@ -61,38 +61,67 @@ document.getElementById('btnPerfil').addEventListener('click', async () => {
 // Evento botão Alterar Senha
 document.getElementById('btnSenha').addEventListener('click', () => {
   document.getElementById('mainConfig').innerHTML = `
-  <div class="dashboardConfig">
-    <div class="cardFuncionalidades cardSenha">
-      <h2 class="perfil-nome">Alterar Senha</h2>
-      <label class="labelConfig" for="senhaAtual">Senha Atual</label>
-      <input type="password" id="senhaAtual" placeholder="Digite sua senha atual" class="input-config" />
-
-      <label class="labelConfig" for="novaSenha">Nova Senha</label>
-      <input type="password" id="novaSenha" placeholder="Digite sua nova senha" class="input-config" />
-
-      <label class="labelConfig" for="confirmarSenha">Confirmar Nova Senha</label>
-      <input type="password" id="confirmarSenha" placeholder="Confirme sua nova senha" class="input-config" />
-
-      <button class="botao-salvar" id="btnSalvarSenha">Salvar Senha</button>
+    <div class="dashboardConfig">
+      <div class="cardFuncionalidades cardSenha">
+        <h2 class="perfil-nome">Alterar Senha</h2>
+        <label class="labelConfig" for="senhaAtual">Senha Atual</label>
+        <input type="password" id="senhaAtual" placeholder="Digite sua senha atual" class="input-config" />
+        <label class="labelConfig" for="novaSenha">Nova Senha</label>
+        <input type="password" id="novaSenha" placeholder="Digite sua nova senha" class="input-config" />
+        <label class="labelConfig" for="confirmarSenha">Confirmar Nova Senha</label>
+        <input type="password" id="confirmarSenha" placeholder="Confirme sua nova senha" class="input-config" />
+        <button class="botao-salvar" id="btnSalvarSenha">Salvar Senha</button>
+      </div>
     </div>
-  </div>
   `;
 
   setTimeout(() => {
     document.getElementById('btnSalvarSenha').addEventListener('click', async () => {
+      const senhaAtual = document.getElementById('senhaAtual').value;
       const novaSenha = document.getElementById('novaSenha').value;
       const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+      if (!senhaAtual || !novaSenha || !confirmarSenha) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
 
       if (novaSenha !== confirmarSenha) {
         alert("As senhas não coincidem.");
         return;
       }
 
+      if (novaSenha.length < 6) {
+        alert("A nova senha deve conter pelo menos 6 caracteres.");
+        return;
+      }
+
       try {
-        await redefinirSenha(novaSenha);
+        await redefinirSenha(novaSenha, senhaAtual);
         alert("Senha alterada com sucesso!");
       } catch (erro) {
-        alert("Erro ao alterar senha: " + (erro.message || erro));
+        console.error("Erro ao alterar senha:", erro);
+        let mensagemErro = "Erro inesperado. Tente novamente mais tarde.";
+
+        switch (erro.message) {
+          case "Firebase: Error (auth/invalid-credential).":
+            mensagemErro = "Senha atual incorreta. Tente novamente.";
+            break;
+          case "Firebase: Error (auth/weak-password).":
+            mensagemErro = "A nova senha é muito fraca. Use pelo menos 6 caracteres.";
+            break;
+          case "Firebase: Error (auth/requires-recent-login).":
+            mensagemErro = "Por segurança, você precisa sair e entrar novamente para trocar a senha.";
+            break;
+          case "Firebase: Error (auth/user-not-found).":
+            mensagemErro = "Usuário não encontrado. Faça login novamente.";
+            break;
+          case "Firebase: Error (auth/too-many-requests).":
+            mensagemErro = "Muitas tentativas. Aguarde alguns minutos e tente novamente.";
+            break;
+        }
+
+        alert(mensagemErro);
       }
     });
   }, 100);

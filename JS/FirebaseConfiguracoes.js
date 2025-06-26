@@ -1,10 +1,11 @@
-// Importações Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
   getAuth,
   updatePassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 import {
   getFirestore,
@@ -80,13 +81,16 @@ export async function buscarDadosUsuario() {
   });
 }
 
-// Redefinir senha
-export async function redefinirSenha(novaSenha) {
+// Redefinir senha com reautenticação
+export async function redefinirSenha(novaSenha, senhaAtual) {
   const user = auth.currentUser;
 
   if (!user) throw new Error("Usuário não está autenticado.");
 
+  const credencial = EmailAuthProvider.credential(user.email, senhaAtual);
+
   try {
+    await reauthenticateWithCredential(user, credencial);
     await updatePassword(user, novaSenha);
   } catch (error) {
     console.error("Erro ao redefinir a senha:", error);
@@ -103,4 +107,3 @@ export async function logout() {
     throw new Error(error.message || "Erro ao sair.");
   }
 }
-  

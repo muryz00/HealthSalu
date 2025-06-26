@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 document.getElementById("cardBtn").addEventListener("click", salvarRegistroMenstruacao);
 
-function salvarRegistroMenstruacao() {
+async function salvarRegistroMenstruacao() {
   const cpfPaciente = localStorage.getItem("cpfPaciente");
   const observacoes = document.getElementById("observacoes").value;
   const fluxoInput = document.getElementById("fluxo").value;
@@ -24,26 +24,20 @@ function salvarRegistroMenstruacao() {
 
   let dataInicio, dataFim, fluxo;
 
-  // ✅ Caso o usuário tenha usado os inputs de data
   if (dataInicioInput && dataFimInput) {
     dataInicio = dataInicioInput;
     dataFim = dataFimInput;
-    fluxo = fluxoInput; // usa o select do HTML
-
+    fluxo = fluxoInput;
   } else if (diasSelecionados.size > 0) {
-    // ✅ Caso o usuário tenha selecionado datas no calendário
     const dias = Array.from(diasSelecionados).sort();
     dataInicio = dias[0];
     dataFim = dias[dias.length - 1];
-
-    // 🔴 Prompt para selecionar o fluxo
     fluxo = prompt("Informe o fluxo menstrual (leve, moderado ou intenso):")?.toLowerCase();
 
     if (!["leve", "moderado", "intenso"].includes(fluxo)) {
       alert("Fluxo inválido. Use: leve, moderado ou intenso.");
       return;
     }
-
   } else {
     alert("Preencha as datas ou selecione os dias no calendário.");
     return;
@@ -72,19 +66,29 @@ function salvarRegistroMenstruacao() {
     cpf: cpfPaciente
   };
 
-  fluxoHistorico.push(registro);
-  salvarRegistroFirestore(registro);
+  try {
+    await salvarRegistroFirestore(registro);
 
-  diasSelecionados.clear();
-  document.getElementById("dataInicio").value = "";
-  document.getElementById("dataFim").value = "";
-  document.getElementById("observacoes").value = "";
+    // Recarrega os dados atualizados do Firestore
+    const registrosAtualizados = await buscarRegistrosFirestore();
+    fluxoHistorico.length = 0;
+    fluxoHistorico.push(...registrosAtualizados);
 
-  atualizarDatasSelecionadasNoCalendario();
-  gerarGraficoFluxo();
-  calcularPrevisoes();
-  atualizarCalendario();
+    diasSelecionados.clear();
+    document.getElementById("dataInicio").value = "";
+    document.getElementById("dataFim").value = "";
+    document.getElementById("observacoes").value = "";
+
+    atualizarDatasSelecionadasNoCalendario();
+    gerarGraficoFluxo();
+    calcularPrevisoes(); // Já chama atualizarCalendario internamente
+
+  } catch (e) {
+    console.error("Erro ao salvar ou atualizar visualização:", e);
+    alert("Houve um erro ao salvar. Tente novamente.");
+  }
 }
+
 
 
 function toggleDataSelecionada(data) {

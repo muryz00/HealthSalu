@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Esqueci minha Senha</title>
+  <link rel="stylesheet" href="CSS/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="esqueciSenha">
+    <section class="containerSenha">
+      <div class="cardFuncionalidades cardSenha">
+        <h2 class="perfil-nome">Recuperar Senha</h2>
+
+        <div class="tipo-usuario-radio" style="margin-bottom: 1em;">
+          <label><input type="radio" name="tipoUsuario" value="paciente" checked /> Paciente</label>
+          <label style="margin-left: 1em;"><input type="radio" name="tipoUsuario" value="medico" /> Médico</label>
+        </div>
+
+        <label class="labelConfig" for="cpf">CPF ou CRM</label>
+        <input type="text" id="cpf" placeholder="Digite seu CPF ou CRM" class="input-config" />
+
+        <button class="botao-salvar" id="btnBuscarEmail">Buscar Email</button>
+
+        <p id="emailEncontrado" style="margin-top: 10px; color: white;"></p>
+        <button class="botao-salvar" id="btnEnviarLink" style="display: none;">Enviar link de redefinição</button>
+      </div>
+    </section>
+  </div>
+
+  <a href="login.html" id="btnHome" title="Voltar à Home">
+    <i class="fas fa-home"></i>
+  </a>
+
+  <script type="module" src="JS/recuperarSenha.js"></script>
+</body>
+</html>
